@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Manager;
+namespace App\Back\Manager;
 
 
-use App\Model\Book;
+use App\Back\Model\Book;
 
 class BookManager
 {

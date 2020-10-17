@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Controller;
+namespace App\Back\Controller;
 
 
-use App\Manager\BookManager;
+use App\Back\Manager\BookManager;
 
 class BookController
 {
@@ -40,7 +40,7 @@ class BookController
         ob_start();
         require_once ROOT_DIR . $view;
         $section = ob_get_clean();
-        require_once ROOT_DIR . 'view/template.php';
+        require_once ROOT_DIR . 'back/view/template.php';
     }
 
     /**
@@ -49,7 +49,7 @@ class BookController
     public function all(): void
     {
         $books = $this->bookManager->all();
-        $this->render('view/all.php', compact('books'));
+        $this->render('back/view/all.php', compact('books'));
     }
 
     /**
@@ -59,7 +59,7 @@ class BookController
     public function one(int $id)
     {
         $book = $this->bookManager->one($id);
-        $this->render('view/one.php', compact('book'));
+        $this->render('back/view/one.php', compact('book'));
     }
 
 }

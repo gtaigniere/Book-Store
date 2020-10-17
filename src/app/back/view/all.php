@@ -1,6 +1,6 @@
 <?php
 
-use App\Model\Book;
+use App\Back\Model\Book;
 
 if (isset($books)) {
 ?>
