@@ -52,4 +52,14 @@ class BookController
         $this->render('view/all.php', compact('books'));
     }
 
+    /**
+     * Affiche le livre dont l'"id" est passé en paramètre
+     * @param int $id
+     */
+    public function one(int $id)
+    {
+        $book = $this->bookManager->one($id);
+        $this->render('view/one.php', compact('book'));
+    }
+
 }

@@ -80,7 +80,7 @@ form > div figure {
     border-right: none;
     border-radius: .25rem 0 0 .25rem;
 }
-form > div > figure > i {
+form > div > figure > i, form > div > div > figure i {
     color: #495057;
 }
 form > div input {
@@ -136,6 +136,12 @@ table th, table td {
 }
 table.color_line tr:nth-child(2n+1) td {
     background: #495057;
+}
+table th:last-child(n-1), table td:last-child(n-1) {
+    width: 100px;
+}
+table th:last-child, table td:last-child {
+    width: 130px;
 }
 table tr td:last-child {
     text-align: right;

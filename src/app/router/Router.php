@@ -30,10 +30,10 @@ class Router
                     $this->all();
                     break;
                 default:
-                    $this->index();
+                    $this->all();
             }
         } else {
-            $this->index();
+            $this->all();
         }
     }
 

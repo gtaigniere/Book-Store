@@ -7,7 +7,7 @@ namespace App\Model;
 class Book
 {
     /**
-     * @var int
+     * @var int|null
      */
     private $id;
 
@@ -33,7 +33,7 @@ class Book
      * @param $editeur
      * @param $prix
      */
-    public function __construct($id, $nom, $editeur, $prix)
+    public function __construct($id = null, $nom = '', $editeur = '', $prix = 0.0)
     {
         $this->id = $id;
         $this->nom = $nom;
