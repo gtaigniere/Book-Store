@@ -28,15 +28,15 @@ if (isset($section)) {
     </header>
 
     <div id ="contenant-form">
-        <form action="" method="post">
+        <form action="?target=search" method="POST">
             <div>
-                <figure class="">
+                <figure>
                     <i class="fas fa-id-badge"></i>
                 </figure>
-                <input id="input-id" type="text" name="bookid" autocomplete="off" placeholder="ID">
+                <input id="input-id" type="text" name="bookId" autocomplete="off" placeholder="ID">
             </div>
             <div>
-                <figure class="">
+                <figure>
                     <i class="fas fa-book"></i>
                 </figure>
                 <input id="input-name" type="text" name="bookName" autocomplete="off" placeholder="Nom du livre">
@@ -46,13 +46,13 @@ if (isset($section)) {
                     <figure>
                         <i class="fas fa-people-carry"></i>
                     </figure>
-                    <input id="input-publisher" type="text" name="bookName" autocomplete="off" placeholder="Editeur">
+                    <input id="input-publisher" type="text" name="bookPublisher" autocomplete="off" placeholder="Editeur">
                 </div>
                 <div class="bordure">
                     <figure>
                         <i class="fas fa-euro-sign"></i>
                     </figure>
-                    <input id="input-price" type="text" name="bookName" autocomplete="off" placeholder="Prix">
+                    <input id="input-price" type="text" name="bookPrice" autocomplete="off" placeholder="Prix">
                 </div>
             </div>
             <div>

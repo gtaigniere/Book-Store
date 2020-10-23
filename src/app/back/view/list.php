@@ -25,9 +25,9 @@ if (isset($books)) {
 
                             <tr>
                                 <td><?= $book->getId(); ?></td>
-                                <td><?= $book->getNom(); ?></td>
-                                <td><?= $book->getEditeur(); ?></td>
-                                <td><?= $book->getPrix(); ?></td>
+                                <td><?= $book->getName(); ?></td>
+                                <td><?= $book->getPublisher(); ?></td>
+                                <td><?= $book->getPrice(); ?></td>
                                 <td>
                                     <a class="btn btn-warning" href=""><i class="fas fa-edit"></i></a>
                                     <a class="btn btn-danger" href=""><i class="fas fa-trash"></i></a>

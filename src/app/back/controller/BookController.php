@@ -49,17 +49,24 @@ class BookController
     public function all(): void
     {
         $books = $this->bookManager->all();
-        $this->render('back/view/all.php', compact('books'));
+        $this->render('back/view/list.php', compact('books'));
     }
 
     /**
-     * Affiche le livre dont l'"id" est passé en paramètre
-     * @param int $id
+     * Affiche la liste des livres du résultat de la recherche
+     * @param array $researchs
      */
-    public function one(int $id)
+    public function search($researchs): void
     {
-        $book = $this->bookManager->one($id);
-        $this->render('back/view/one.php', compact('book'));
+        $criteria = [];
+        foreach ($researchs as $key => $research) {
+            if ($research !== "") {
+                $key = str_replace("book", "", $key);
+                $criteria[$key] = $research;
+            }
+        }
+        $books = $this->bookManager->search($criteria);
+        $this->render('back/view/list.php', compact('books'));
     }
 
 }
