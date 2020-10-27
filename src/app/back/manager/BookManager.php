@@ -44,48 +44,35 @@ class BookManager
      */
     public function search(array $criteria): array
     {
-        $counter = 0;
-        $result = [];
-        foreach ($this->books as $book) {
-            // Recherche de l'id
-            if (array_key_exists('Id', $criteria)) {
-                $counter++;
-                if (intval($criteria['Id']) === $book->getId()) {
-                    $result[] = $book->getId();
-                }
-            }
-            // Recherche dans le nom
-            if (array_key_exists('Name', $criteria)) {
-                $counter++;
-                if (is_int(strpos(strtolower($book->getName()), strtolower($criteria['Name'])))) {
-                    $result[] = $book->getId();
-                }
-            }
-            // Recherche dans l'editeur
-            if (array_key_exists('Publisher', $criteria)) {
-                $counter++;
-                if (is_int(strpos(strtolower($book->getPublisher()), strtolower($criteria['Publisher'])))) {
-                    $result[] = $book->getId();
-                }
-            }
-            // Recherche dont le prix est inférieur ou égal
-            if (array_key_exists('Price', $criteria)) {
-                $counter++;
-                if(floatval($criteria['Price']) >= $book->getPrice())) {
-                    $result[] = $book->getId();
-                }
-            }
-        }
-
-        if ($counter === count($result)) {
-
-        }
-        $result = array_unique($result);
+        $counterCriteria = ['Id' => 0, 'Name' => 0, 'Publisher' => 0, 'Price' => 0];
+        $counterGlobal = 0;
         $books = [];
-        foreach ($result as $id) {
-            foreach ($this->books as $book) {
-                if (intval($id) === $book->getId()) {
-                    $books[] = $book;
+        foreach ($this->books as $book) {
+            foreach ($book as $key => $valeur) {
+                if (array_key_exists($key, $criteria)) {
+                    $counterGlobal++;
+                    $chaine = 'get' . $key;
+                    if ($key == 'Id') {
+                        if (intval($criteria[$key]) === $book->$chaine()) {
+                            $counterCriteria[$key]++;
+                        }
+                    }
+                    if ($key == 'Name' || $key == 'Publisher') {
+                        if (is_int(strpos(strtolower($book->$chaine()), strtolower($criteria[$key])))) {
+                            $counterCriteria[$key]++;
+                        }
+                    }
+                    if ($key == 'Price') {
+                        if(floatval($criteria[$key]) >= $book->$chaine()) {
+                            $counterCriteria[$key]++;
+                        }
+                    }
+                }
+            }
+            foreach ($counterCriteria as $key => $counter) {
+                if ($counter === $counterGlobal) {
+                    $chaine = 'get' . $key;
+                    $books[] = $book->$chaine();
                 }
             }
         }
