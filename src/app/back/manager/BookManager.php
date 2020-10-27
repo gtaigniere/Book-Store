@@ -38,50 +38,53 @@ class BookManager
 
     /**
      * Renvoie les livres du résultat de la recherche
-     * @param array $criteria
-     * @return array|null
+     * @param array $criteria Tableau associatif dont les clefs et valeurs (si présentent)
+     * correspondent respectivement aux champs "name" et "value" du formulaire de recherche
+     * @return array
      */
-    public function search(array $criteria): ?array
+    public function search(array $criteria): array
     {
-        $results = [];
-        // Recherche de l'id
-        if (array_key_exists('Id', $criteria)) {
-            foreach ($this->books as $book) {
-                if ($criteria['Id'] == $book->getId()) {
-                    $results[] = $book->getId();
+        $counter = 0;
+        $result = [];
+        foreach ($this->books as $book) {
+            // Recherche de l'id
+            if (array_key_exists('Id', $criteria)) {
+                $counter++;
+                if (intval($criteria['Id']) === $book->getId()) {
+                    $result[] = $book->getId();
                 }
             }
-        }
-        // Recherche dans le nom
-        if (array_key_exists('Name', $criteria)) {
-            foreach ($this->books as $book) {
-                $search = '/' . $criteria['Name'] . '/i';
-                if (preg_match($search, $book->getName())) {
-                    $results[] = $book->getId();
+            // Recherche dans le nom
+            if (array_key_exists('Name', $criteria)) {
+                $counter++;
+                if (is_int(strpos(strtolower($book->getName()), strtolower($criteria['Name'])))) {
+                    $result[] = $book->getId();
                 }
             }
-        }
-        // Recherche dans l'editeur
-        if (array_key_exists('Publisher', $criteria)) {
-            foreach ($this->books as $book) {
+            // Recherche dans l'editeur
+            if (array_key_exists('Publisher', $criteria)) {
+                $counter++;
                 if (is_int(strpos(strtolower($book->getPublisher()), strtolower($criteria['Publisher'])))) {
-                    $results[] = $book->getId();
+                    $result[] = $book->getId();
+                }
+            }
+            // Recherche dont le prix est inférieur ou égal
+            if (array_key_exists('Price', $criteria)) {
+                $counter++;
+                if(floatval($criteria['Price']) >= $book->getPrice())) {
+                    $result[] = $book->getId();
                 }
             }
         }
-        // Recherche dont le prix est inférieur
-        if (array_key_exists('Price', $criteria)) {
-            foreach ($this->books as $book) {
-                if ($criteria['Price'] >= $book->getPrice()) {
-                    $results[] = $book->getId();
-                }
-            }
+
+        if ($counter === count($result)) {
+
         }
-        $results = array_unique($results);
+        $result = array_unique($result);
         $books = [];
-        foreach ($results as $id) {
+        foreach ($result as $id) {
             foreach ($this->books as $book) {
-                if ($id == $book->getId()) {
+                if (intval($id) === $book->getId()) {
                     $books[] = $book;
                 }
             }

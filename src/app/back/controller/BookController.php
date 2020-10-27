@@ -54,19 +54,19 @@ class BookController
 
     /**
      * Affiche la liste des livres du résultat de la recherche
-     * @param array $researchs
+     * @param array $researchEs
      */
-    public function search($researchs): void
+    public function search(array $researchEs): void
     {
         $criteria = [];
-        foreach ($researchs as $key => $research) {
+        foreach ($researchEs as $key => $research) {
             if ($research !== "") {
                 $key = str_replace("book", "", $key);
                 $criteria[$key] = $research;
             }
         }
         $books = $this->bookManager->search($criteria);
-        $this->render('back/view/list.php', compact('books'));
+        $this->render('back/view/list.php', compact('books', 'criteria'));
     }
 
 }
