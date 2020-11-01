@@ -29,6 +29,9 @@ class Router
                 case 'all':
                     $this->all();
                     break;
+                case 'search':
+                    $this->search();
+                    break;
                 default:
                     $this->all();
             }
@@ -47,6 +50,12 @@ class Router
     {
         $ctrl = new BookController();
         $ctrl->all();
+    }
+
+    public function search()
+    {
+        $ctrl = new BookController();
+        $ctrl->search($_POST);
     }
 
 }

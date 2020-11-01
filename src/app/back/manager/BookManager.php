@@ -36,4 +36,25 @@ class BookManager
         return $this->books;
     }
 
+    /**
+     * Renvoie les livres du résultat de la recherche
+     * @param array $criteria Tableau associatif dont les clefs et valeurs (si présentent)
+     * correspondent respectivement aux champs "name" et "value" du formulaire de recherche
+     * @return Book[]
+     */
+    public function search(array $criteria): array
+    {
+        $books = [];
+        foreach ($this->books as $book) {
+            $criteriaId = !array_key_exists('bookId', $criteria) || empty($criteria['bookId']) || (int)$criteria['bookId'] === $book->getId();
+            $criteriaName = !array_key_exists('bookName', $criteria) || empty($criteria['bookName']) || is_int(strpos(strtolower($book->getName()), strtolower($criteria['bookName'])));
+            $criteriaPublisher = !array_key_exists('bookPublisher', $criteria) || empty($criteria['bookPublisher']) || is_int(strpos(strtolower($book->getPublisher()), strtolower($criteria['bookPublisher'])));
+            $criteriaPrice = !array_key_exists('bookPrice', $criteria) || empty($criteria['bookPrice']) || (float)$criteria['bookPrice'] === $book->getPrice();
+            if ($criteriaId && $criteriaName && $criteriaPublisher && $criteriaPrice) {
+                $books[] = $book;
+            }
+        }
+        return $books;
+    }
+
 }

@@ -14,31 +14,31 @@ class Book
     /**
      * @var string
      */
-    private $nom;
+    private $name;
 
     /**
      * @var string
      */
-    private $editeur;
+    private $publisher;
 
     /**
      * @var float
      */
-    private $prix;
+    private $price;
 
     /**
      * Book constructor.
      * @param $id
-     * @param $nom
-     * @param $editeur
-     * @param $prix
+     * @param $name
+     * @param $publisher
+     * @param $price
      */
-    public function __construct($id = null, $nom = '', $editeur = '', $prix = 0.0)
+    public function __construct($id = null, $name = '', $publisher = '', $price = 0.0)
     {
         $this->id = $id;
-        $this->nom = $nom;
-        $this->editeur = $editeur;
-        $this->prix = $prix;
+        $this->name = $name;
+        $this->publisher = $publisher;
+        $this->price = $price;
     }
 
     /**
@@ -60,49 +60,49 @@ class Book
     /**
      * @return string
      */
-    public function getNom(): string
+    public function getName(): string
     {
-        return $this->nom;
+        return $this->name;
     }
 
     /**
-     * @param string $nom
+     * @param string $name
      */
-    public function setNom(string $nom): void
+    public function setName(string $name): void
     {
-        $this->nom = $nom;
+        $this->name = $name;
     }
 
     /**
      * @return string
      */
-    public function getEditeur(): string
+    public function getPublisher(): string
     {
-        return $this->editeur;
+        return $this->publisher;
     }
 
     /**
-     * @param string $editeur
+     * @param string $publisher
      */
-    public function setEditeur(string $editeur): void
+    public function setPublisher(string $publisher): void
     {
-        $this->editeur = $editeur;
+        $this->publisher = $publisher;
     }
 
     /**
      * @return float
      */
-    public function getPrix(): float
+    public function getPrice(): float
     {
-        return $this->prix;
+        return $this->price;
     }
 
     /**
-     * @param float $prix
+     * @param float $price
      */
-    public function setPrix(float $prix): void
+    public function setPrice(float $price): void
     {
-        $this->prix = $prix;
+        $this->price = $price;
     }
 
 }
