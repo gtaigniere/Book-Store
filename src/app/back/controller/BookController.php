@@ -54,17 +54,11 @@ class BookController
 
     /**
      * Affiche la liste des livres du résultat de la recherche
-     * @param array $researchEs
+     * @param array $criteria Tableau associatif dont les clefs et valeurs (si présentent)
+     * correspondent respectivement aux champs "name" et "value" du formulaire de recherche
      */
-    public function search(array $researchEs): void
+    public function search(array $criteria): void
     {
-        $criteria = [];
-        foreach ($researchEs as $key => $research) {
-            if ($research !== "") {
-                $key = str_replace("book", "", $key);
-                $criteria[$key] = $research;
-            }
-        }
         $books = $this->bookManager->search($criteria);
         $this->render('back/view/list.php', compact('books', 'criteria'));
     }

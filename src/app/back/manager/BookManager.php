@@ -40,40 +40,18 @@ class BookManager
      * Renvoie les livres du résultat de la recherche
      * @param array $criteria Tableau associatif dont les clefs et valeurs (si présentent)
      * correspondent respectivement aux champs "name" et "value" du formulaire de recherche
-     * @return array
+     * @return Book[]
      */
     public function search(array $criteria): array
     {
-        $counterCriteria = ['Id' => 0, 'Name' => 0, 'Publisher' => 0, 'Price' => 0];
-        $counterGlobal = 0;
         $books = [];
         foreach ($this->books as $book) {
-            foreach ($book as $key => $valeur) {
-                if (array_key_exists($key, $criteria)) {
-                    $counterGlobal++;
-                    $chaine = 'get' . $key;
-                    if ($key == 'Id') {
-                        if (intval($criteria[$key]) === $book->$chaine()) {
-                            $counterCriteria[$key]++;
-                        }
-                    }
-                    if ($key == 'Name' || $key == 'Publisher') {
-                        if (is_int(strpos(strtolower($book->$chaine()), strtolower($criteria[$key])))) {
-                            $counterCriteria[$key]++;
-                        }
-                    }
-                    if ($key == 'Price') {
-                        if(floatval($criteria[$key]) >= $book->$chaine()) {
-                            $counterCriteria[$key]++;
-                        }
-                    }
-                }
-            }
-            foreach ($counterCriteria as $key => $counter) {
-                if ($counter === $counterGlobal) {
-                    $chaine = 'get' . $key;
-                    $books[] = $book->$chaine();
-                }
+            $criteriaId = !array_key_exists('bookId', $criteria) || empty($criteria['bookId']) || (int)$criteria['bookId'] === $book->getId();
+            $criteriaName = !array_key_exists('bookName', $criteria) || empty($criteria['bookName']) || is_int(strpos(strtolower($book->getName()), strtolower($criteria['bookName'])));
+            $criteriaPublisher = !array_key_exists('bookPublisher', $criteria) || empty($criteria['bookPublisher']) || is_int(strpos(strtolower($book->getPublisher()), strtolower($criteria['bookPublisher'])));
+            $criteriaPrice = !array_key_exists('bookPrice', $criteria) || empty($criteria['bookPrice']) || (float)$criteria['bookPrice'] === $book->getPrice();
+            if ($criteriaId && $criteriaName && $criteriaPublisher && $criteriaPrice) {
+                $books[] = $book;
             }
         }
         return $books;

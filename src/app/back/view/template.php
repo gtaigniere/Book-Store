@@ -34,16 +34,16 @@ if (isset($section)) {
                     <i class="fas fa-id-badge"></i>
                 </figure>
                 <input id="input-id" type="text" name="bookId"
-                       <?= isset($criteria) && array_key_exists('Id', $criteria) ?
-                           'value="' . $criteria['Id'] . '"' : '' ; ?>autocomplete="off" placeholder="ID">
+                       <?= isset($criteria) && array_key_exists('bookId', $criteria) ?
+                           'value="' . $criteria['bookId'] . '"' : '' ; ?>autocomplete="off" placeholder="ID">
             </div>
             <div>
                 <figure>
                     <i class="fas fa-book"></i>
                 </figure>
                 <input id="input-name" type="text" name="bookName"
-                       <?= isset($criteria) && array_key_exists('Name', $criteria) ?
-                           'value="' . $criteria['Name'] . '"' : ''; ?>autocomplete="off" placeholder="Nom du livre">
+                       <?= isset($criteria) && array_key_exists('bookName', $criteria) ?
+                           'value="' . $criteria['bookName'] . '"' : ''; ?>autocomplete="off" placeholder="Nom du livre">
             </div>
             <div>
                 <div class="bordure">
@@ -51,16 +51,16 @@ if (isset($section)) {
                         <i class="fas fa-people-carry"></i>
                     </figure>
                     <input id="input-publisher" type="text" name="bookPublisher"
-                           <?= isset($criteria) && array_key_exists('Publisher', $criteria) ?
-                               'value="' . $criteria['Publisher'] . '"' : ''; ?>autocomplete="off" placeholder="Editeur">
+                           <?= isset($criteria) && array_key_exists('bookPublisher', $criteria) ?
+                               'value="' . $criteria['bookPublisher'] . '"' : ''; ?>autocomplete="off" placeholder="Editeur">
                 </div>
                 <div class="bordure">
                     <figure>
                         <i class="fas fa-euro-sign"></i>
                     </figure>
                     <input id="input-price" type="text" name="bookPrice"
-                           <?= isset($criteria) && array_key_exists('Price', $criteria) ?
-                               'value="' . $criteria['Price'] . '"' : ''; ?>autocomplete="off" placeholder="Prix">
+                           <?= isset($criteria) && array_key_exists('bookPrice', $criteria) ?
+                               'value="' . $criteria['bookPrice'] . '"' : ''; ?>autocomplete="off" placeholder="Prix">
                 </div>
             </div>
             <div>
