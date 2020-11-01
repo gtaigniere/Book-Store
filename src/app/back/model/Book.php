@@ -28,17 +28,9 @@ class Book
 
     /**
      * Book constructor.
-     * @param $id
-     * @param $name
-     * @param $publisher
-     * @param $price
      */
-    public function __construct($id = null, $name = '', $publisher = '', $price = 0.0)
+    public function __construct()
     {
-        $this->id = $id;
-        $this->name = $name;
-        $this->publisher = $publisher;
-        $this->price = $price;
     }
 
     /**
