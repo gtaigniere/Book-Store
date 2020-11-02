@@ -38,14 +38,4 @@ class BookManager
         return $objs;
     }
 
-    /**
-     * Renvoie les livres du résultat de la recherche
-     * @param array $criteria Tableau associatif dont les clefs et valeurs (si présentent)
-     * correspondent respectivement aux champs "name" et "value" du formulaire de recherche
-     * @return Book[]
-     */
-    public function search(array $criteria): array
-    {
-    }
-
 }
