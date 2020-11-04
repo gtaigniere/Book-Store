@@ -30,12 +30,7 @@ class BookManager
     public function all(): array
     {
         $stmt = $this->db->query('SELECT * FROM book');
-        $results = $stmt->fetchAll(PDO::FETCH_CLASS, Book::class);
-        $objs = [];
-        foreach ($results as $obj) {
-            $objs[] = $obj;
-        }
-        return $objs;
+        return $stmt->fetchAll(PDO::FETCH_CLASS, Book::class);
     }
 
 }
