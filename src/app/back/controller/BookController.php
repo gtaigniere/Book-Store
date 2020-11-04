@@ -5,6 +5,7 @@ namespace App\Back\Controller;
 
 
 use App\Back\Manager\BookManager;
+use PDO;
 
 class BookController
 {
@@ -15,10 +16,11 @@ class BookController
 
     /**
      * BookController constructor.
+     * @param PDO $db
      */
-    public function __construct()
+    public function __construct(PDO $db)
     {
-        $this->bookManager = new BookManager();
+        $this->bookManager = new BookManager($db);
     }
 
     /**
@@ -50,17 +52,6 @@ class BookController
     {
         $books = $this->bookManager->all();
         $this->render('back/view/list.php', compact('books'));
-    }
-
-    /**
-     * Affiche la liste des livres du résultat de la recherche
-     * @param array $criteria Tableau associatif dont les clefs et valeurs (si présentent)
-     * correspondent respectivement aux champs "name" et "value" du formulaire de recherche
-     */
-    public function search(array $criteria): void
-    {
-        $books = $this->bookManager->search($criteria);
-        $this->render('back/view/list.php', compact('books', 'criteria'));
     }
 
 }

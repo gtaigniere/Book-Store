@@ -5,6 +5,7 @@ namespace App\router;
 
 
 use App\Back\Controller\BookController;
+use PDO;
 
 class Router
 {
@@ -14,12 +15,19 @@ class Router
     private $params;
 
     /**
+     * @var PDO
+     */
+    private $db;
+
+    /**
      * Router constructor.
      * @param array $params
+     * @param PDO $db
      */
-    public function __construct(array $params)
+    public function __construct(array $params, PDO $db)
     {
         $this->params = $params;
+        $this->db = $db;
     }
 
     public function route()
@@ -42,19 +50,19 @@ class Router
 
     public function index()
     {
-        $ctrl = new BookController();
+        $ctrl = new BookController($this->db);
         $ctrl->index();
     }
 
     public function all()
     {
-        $ctrl = new BookController();
+        $ctrl = new BookController($this->db);
         $ctrl->all();
     }
 
     public function search()
     {
-        $ctrl = new BookController();
+        $ctrl = new BookController($this->db);
         $ctrl->search($_POST);
     }
 
