@@ -28,8 +28,7 @@ if (isset($section)) {
     </header>
 
     <div id ="contenant-form">
-        <form action="" method="GET">
-            <input type="hidden" name="target" value="add">
+        <form action="" method="POST">
             <div>
                 <figure>
                     <i class="fas fa-id-badge"></i>
@@ -65,9 +64,10 @@ if (isset($section)) {
                 </div>
             </div>
             <div>
-                <button class="btn btn-success"><i class="fas fa-plus"></i></button>
-                <button class="btn btn-light"><i class="fas fa-pen-alt"></i></button>
-                <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+<!--                ToDo: A modifier avec un script, cf: https://github.com/gillout/book-store/projects/1#card-48477055 -->
+                <button class="btn btn-success" name="target" value="add"><i class="fas fa-plus"></i></button>
+                <button class="btn btn-light" name="target" value="modify"><i class="fas fa-pen-alt"></i></button>
+                <button class="btn btn-primary" name="target" value="search"><i class="fas fa-search"></i></button>
             </div>
         </form>
     </div>

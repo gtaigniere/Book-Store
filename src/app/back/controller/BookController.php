@@ -59,7 +59,7 @@ class BookController
     public function add(array $params): void
     {
         $book = new Book();
-        array_key_exists('bookId', $params) ? $book->setId((int)$params['bookId']) : $book->setId(null);
+        $book->setId(array_key_exists('bookId', $params) ? (int)$params['bookId'] : null);
         $book->setName($params['bookName']);
         $book->setPublisher($params['bookPublisher']);
         $book->setPrice((float)$params['bookPrice']);
