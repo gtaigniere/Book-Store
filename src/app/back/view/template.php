@@ -28,7 +28,8 @@ if (isset($section)) {
     </header>
 
     <div id ="contenant-form">
-        <form action="?target=search" method="POST">
+        <form action="" method="GET">
+            <input type="hidden" name="target" value="add">
             <div>
                 <figure>
                     <i class="fas fa-id-badge"></i>

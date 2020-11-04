@@ -10,7 +10,12 @@ use PDO;
 class BookManager
 {
     /**
-     * @var PDO $db
+     * @var Book[]
+     */
+    private $books;
+
+    /**
+     * @var PDO
      */
     private $db;
 
