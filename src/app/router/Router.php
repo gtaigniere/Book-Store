@@ -5,7 +5,6 @@ namespace App\router;
 
 
 use App\Back\Controller\BookController;
-use PDO;
 
 class Router
 {
@@ -17,7 +16,6 @@ class Router
     /**
      * Router constructor.
      * @param array $params
-     * @param PDO $db
      */
     public function __construct(array $params)
     {
