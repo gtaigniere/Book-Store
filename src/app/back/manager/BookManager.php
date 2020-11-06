@@ -9,10 +9,6 @@ use PDO;
 
 class BookManager
 {
-    /**
-     * @var Book[]
-     */
-    private $books;
 
     /**
      * @var PDO
@@ -62,7 +58,8 @@ class BookManager
             ':id' => $book->getId(),
             ':name' => $book->getName(),
             ':publisher' => $book->getPublisher(),
-            ':price' => $book->getPrice()]);
+            ':price' => $book->getPrice()
+        ]);
         return $result ? $this->one((int)$this->db->lastInsertId()) : null;
     }
 
