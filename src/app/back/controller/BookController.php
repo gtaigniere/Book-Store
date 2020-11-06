@@ -4,8 +4,8 @@
 namespace App\Back\Controller;
 
 
+use App\App;
 use App\Back\Manager\BookManager;
-use PDO;
 
 class BookController
 {
@@ -16,11 +16,10 @@ class BookController
 
     /**
      * BookController constructor.
-     * @param PDO $db
      */
-    public function __construct(PDO $db)
+    public function __construct()
     {
-        $this->bookManager = new BookManager($db);
+        $this->bookManager = new BookManager(App::getInstance()->getDb());
     }
 
     /**
