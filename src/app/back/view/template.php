@@ -28,7 +28,7 @@ if (isset($section)) {
     </header>
 
     <div id ="contenant-form">
-        <form id="book-form" action="" method="">
+        <form id="book-form">
             <div>
                 <figure>
                     <i class="fas fa-id-badge"></i>
