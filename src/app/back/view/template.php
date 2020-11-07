@@ -28,7 +28,7 @@ if (isset($section)) {
     </header>
 
     <div id ="contenant-form">
-        <form action="?target=add" method="POST">
+        <form id="book-form" action="" method="">
             <div>
                 <figure>
                     <i class="fas fa-id-badge"></i>
@@ -64,10 +64,9 @@ if (isset($section)) {
                 </div>
             </div>
             <div>
-<!--                ToDo: A modifier avec un script, cf: https://github.com/gillout/book-store/projects/1#card-48477055 -->
-                <button class="btn btn-success"><i class="fas fa-plus"></i></button>
-                <button class="btn btn-light"><i class="fas fa-pen-alt"></i></button>
-                <button class="btn btn-primary" name="target" value="search"><i class="fas fa-search"></i></button>
+                <button id="add-button" class="btn btn-success"><i class="fas fa-plus"></i></button>
+                <button id="modify-button" class="btn btn-light"><i class="fas fa-pen-alt"></i></button>
+                <button id="search-button" class="btn btn-primary" name="target" value="search"><i class="fas fa-search"></i></button>
             </div>
         </form>
     </div>
