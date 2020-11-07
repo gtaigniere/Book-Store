@@ -38,7 +38,7 @@ class App
      */
     private function __construct()
     {
-        $this->router = new Router($_GET);
+        $this->router = new Router($_GET, $_POST);
         $this->db = new PDO(
             CONFIG['db.driver'] . ':host=' . CONFIG['db.host'] . ';' . 'dbname=' . CONFIG['db.name'],
             CONFIG['db.user'],

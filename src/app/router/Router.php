@@ -11,21 +11,28 @@ class Router
     /**
      * @var array
      */
-    private $params;
+    private $getParams;
+
+    /**
+     * @var array
+     */
+    private $postParams;
 
     /**
      * Router constructor.
-     * @param array $params
+     * @param array $getParams
+     * @param array $postParams
      */
-    public function __construct(array $params)
+    public function __construct(array $getParams, array $postParams)
     {
-        $this->params = $params;
+        $this->getParams = $getParams;
+        $this->postParams = $postParams;
     }
 
     public function route()
     {
-        if (isset($this->params['target'])) {
-            switch ($this->params['target']) {
+        if (isset($this->getParams['target'])) {
+            switch ($this->getParams['target']) {
                 case 'all':
                     $this->all();
                     break;
@@ -55,7 +62,7 @@ class Router
     public function search()
     {
         $ctrl = new BookController();
-        $ctrl->search($_POST);
+        $ctrl->search($this->getParams);
     }
 
 }
