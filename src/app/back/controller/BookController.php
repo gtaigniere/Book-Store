@@ -6,6 +6,7 @@ namespace App\Back\Controller;
 
 use App\App;
 use App\Back\Manager\BookManager;
+use App\Back\Model\Book;
 
 class BookController
 {

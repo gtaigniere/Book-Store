@@ -65,7 +65,7 @@ class Router
     public function add()
     {
         $ctrl = new BookController();
-        $ctrl->add($this->params);
+        $ctrl->add($this->postParams);
     }
 
     public function search()
