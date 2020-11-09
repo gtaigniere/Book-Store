@@ -39,6 +39,9 @@ class Router
                 case 'add':
                     $this->add();
                     break;
+                case 'modify':
+                    $this->modify();
+                    break;
                 case 'search':
                     $this->search();
                     break;
@@ -66,6 +69,12 @@ class Router
     {
         $ctrl = new BookController();
         $ctrl->add($this->postParams);
+    }
+
+    public function modify()
+    {
+        $ctrl = new BookController();
+        $ctrl->modify($this->postParams);
     }
 
     public function search()
