@@ -10,7 +10,6 @@ use PDO;
 
 class BookManager
 {
-
     /**
      * @var PDO
      */
@@ -52,9 +51,10 @@ class BookManager
      * Ajoute le livre passé en paramètre
      * Renvoie celui-ci s'il a bien été ajouté, sinon null
      * @param Book $book
-     * @return Book|null
+     * @return Book
+     * @throws Exception Si la mise à jour a échoué
      */
-    public function insert(Book $book): ?Book
+    public function insert(Book $book): Book
     {
         $stmt = $this->db->prepare( 'INSERT INTO book VALUES (:id, :name, :publisher, :price)');
         $result = $stmt->execute([
@@ -63,7 +63,10 @@ class BookManager
             ':publisher' => $book->getPublisher(),
             ':price' => $book->getPrice()
         ]);
-        return $result ? $this->one((int)$this->db->lastInsertId()) : null;
+        if ($result) {
+            return $this->one((int)$this->db->lastInsertId());
+        }
+        throw new Exception('Une erreur est survenue lors de l\'ajout du livre');
     }
 
     /**
@@ -91,6 +94,25 @@ class BookManager
             throw new Exception('Une erreur est survenue lors de la mise à jour du livre d\'id:' . $book->getId());
         }
         throw new Exception('Aucun livre n\'a été trouvé avec l\'id:' . $book->getId());
+    }
+
+    /**
+     * Supprime le livre dont l'id est passé en paramètre
+     * @param int $id
+     * @throws Exception
+     * <li>si la suppression a échoué</li>
+     * <li>si le livre n'existe pas en base de données</li>
+     */
+    public function delete(int $id)
+    {
+        if ($this->one($id)) {
+            $stmt = $this->db->prepare('DELETE FROM book WHERE id = :id');
+            $result = $stmt->execute([':id' => $id]);
+            if (!$result) {
+                throw new Exception('Une erreur est survenue lors de la suppression du livre d\'id:' . $id);
+            }
+        }
+        throw new Exception('Aucun livre n\'a été trouvé avec l\'id:' . $id);
     }
 
     /**

@@ -18,10 +18,10 @@ class Router
      */
     private $postParams;
 
-    /**
-     * @var BookController
-     */
-    private $bookController;
+//    /**
+//     * @var BookController
+//     */
+//    private $bookController;
 
     /**
      * Router constructor.
@@ -32,7 +32,7 @@ class Router
     {
         $this->getParams = $getParams;
         $this->postParams = $postParams;
-        $this->bookController = new BookController();
+//        $this->bookController = new BookController();
     }
 
     public function route()
@@ -48,6 +48,9 @@ class Router
                 case 'modify':
                     $this->modify();
                     break;
+                case 'delete':
+                    $this->delete();
+                    break;
                 case 'search':
                     $this->search();
                     break;
@@ -61,27 +64,34 @@ class Router
 
     public function index()
     {
-        $this->bookController->index();
+//        $this->bookController->index();
     }
 
     public function all()
     {
-        $this->bookController->all();
+        $ctrl = new BookController();
+        $ctrl->all();
+//        $this->bookController->all();
     }
 
     public function add()
     {
-        $this->bookController->add($this->postParams);
+//        $this->bookController->add($this->postParams);
     }
 
     public function modify()
     {
-        $this->bookController->modify($this->postParams);
+//        $this->bookController->modify($this->postParams);
+    }
+
+    public function delete()
+    {
+//        $this->bookController->delete($this->getParams['id']);
     }
 
     public function search()
     {
-        $this->bookController->search($this->getParams);
+//        $this->bookController->search($this->getParams);
     }
 
 }

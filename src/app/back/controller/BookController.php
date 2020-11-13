@@ -21,7 +21,7 @@ class BookController
      */
     public function __construct()
     {
-        $this->bookManager = new BookManager(App::getInstance()->Db());
+        $this->bookManager = new BookManager(App::getInstance()->getDb());
     }
 
     /**
@@ -60,16 +60,21 @@ class BookController
      * Si l'id n'est pas précisé, il sera créé automatiquement
      * @param array $params Tableau associatif dont les clefs et valeurs
      * correspondent respectivement aux champs "name" et "value" du formulaire
+     * @throws Exception
      */
     public function add(array $params): void
     {
-        $book = new Book();
-        $book->setId(array_key_exists('bookId', $params) ? (int)$params['bookId'] : null);
-        $book->setName($params['bookName']);
-        $book->setPublisher($params['bookPublisher']);
-        $book->setPrice((float)$params['bookPrice']);
-        $this->bookManager->insert($book);
-        $this->all();
+        try {
+            $book = new Book();
+            $book->setId(array_key_exists('bookId', $params) ? (int)$params['bookId'] : null);
+            $book->setName($params['bookName']);
+            $book->setPublisher($params['bookPublisher']);
+            $book->setPrice((float)$params['bookPrice']);
+            $this->bookManager->insert($book);
+            $this->all();
+        } catch (Exception $e) {
+            $e->getMessage();
+        }
     }
 
     /**
@@ -80,13 +85,32 @@ class BookController
      */
     public function modify(array $params): void
     {
-        $book = new Book();
-        $book->setId($params['bookId']);
-        $book->setName($params['bookName']);
-        $book->setPublisher($params['bookPublisher']);
-        $book->setPrice(!empty($params['bookPrice']) ? (float)$params['bookPrice'] : null);
-        $this->bookManager->update($book);
-        $this->all();
+        try {
+            $book = new Book();
+            $book->setId($params['bookId']);
+            $book->setName($params['bookName']);
+            $book->setPublisher($params['bookPublisher']);
+            $book->setPrice(!empty($params['bookPrice']) ? (float)$params['bookPrice'] : null);
+            $this->bookManager->update($book);
+            $this->all();
+        } catch (Exception $e) {
+            $e->getMessage();
+        }
+    }
+
+    /**
+     * Supprime le livre dont l'id est passé en paramètre
+     * @param int $id
+     * @throws Exception
+     */
+    public function delete(int $id): void
+    {
+        try {
+            $this->bookManager->delete($id);
+            $this->all();
+        } catch (Exception $e) {
+            $e->getMessage();
+        }
     }
 
     /**
