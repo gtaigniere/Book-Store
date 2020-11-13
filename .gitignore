@@ -1,3 +1,6 @@
+# empeche le fichier config.php d'être commit
+config.php
+
 
 # Created by https://www.toptal.com/developers/gitignore/api/phpstorm,windows,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=phpstorm,windows,macos
@@ -160,3 +163,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/phpstorm,windows,macos
+/src/app/config/MyPDO.php

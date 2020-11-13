@@ -28,31 +28,23 @@ class Book
 
     /**
      * Book constructor.
-     * @param $id
-     * @param $name
-     * @param $publisher
-     * @param $price
      */
-    public function __construct($id = null, $name = '', $publisher = '', $price = 0.0)
+    public function __construct()
     {
-        $this->id = $id;
-        $this->name = $name;
-        $this->publisher = $publisher;
-        $this->price = $price;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @param int $id
+     * @param int|null $id
      */
-    public function setId(int $id): void
+    public function setId(?int $id): void
     {
         $this->id = $id;
     }

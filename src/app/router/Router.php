@@ -11,23 +11,42 @@ class Router
     /**
      * @var array
      */
-    private $params;
+    private $getParams;
+
+    /**
+     * @var array
+     */
+    private $postParams;
+
+    /**
+     * @var BookController
+     */
+    private $bookController;
 
     /**
      * Router constructor.
-     * @param array $params
+     * @param array $getParams
+     * @param array $postParams
      */
-    public function __construct(array $params)
+    public function __construct(array $getParams, array $postParams)
     {
-        $this->params = $params;
+        $this->getParams = $getParams;
+        $this->postParams = $postParams;
+        $this->bookController = new BookController();
     }
 
     public function route()
     {
-        if (isset($this->params['target'])) {
-            switch ($this->params['target']) {
+        if (isset($this->getParams['target'])) {
+            switch ($this->getParams['target']) {
                 case 'all':
                     $this->all();
+                    break;
+                case 'add':
+                    $this->add();
+                    break;
+                case 'modify':
+                    $this->modify();
                     break;
                 case 'search':
                     $this->search();
@@ -42,20 +61,27 @@ class Router
 
     public function index()
     {
-        $ctrl = new BookController();
-        $ctrl->index();
+        $this->bookController->index();
     }
 
     public function all()
     {
-        $ctrl = new BookController();
-        $ctrl->all();
+        $this->bookController->all();
+    }
+
+    public function add()
+    {
+        $this->bookController->add($this->postParams);
+    }
+
+    public function modify()
+    {
+        $this->bookController->modify($this->postParams);
     }
 
     public function search()
     {
-        $ctrl = new BookController();
-        $ctrl->search($_POST);
+        $this->bookController->search($this->getParams);
     }
 
 }

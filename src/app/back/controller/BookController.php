@@ -4,7 +4,10 @@
 namespace App\Back\Controller;
 
 
+use App\App;
 use App\Back\Manager\BookManager;
+use App\Back\Model\Book;
+use Exception;
 
 class BookController
 {
@@ -18,7 +21,7 @@ class BookController
      */
     public function __construct()
     {
-        $this->bookManager = new BookManager();
+        $this->bookManager = new BookManager(App::getInstance()->Db());
     }
 
     /**
@@ -50,6 +53,40 @@ class BookController
     {
         $books = $this->bookManager->all();
         $this->render('back/view/list.php', compact('books'));
+    }
+
+    /**
+     * Crée un livre avec les paramètres reçus
+     * Si l'id n'est pas précisé, il sera créé automatiquement
+     * @param array $params Tableau associatif dont les clefs et valeurs
+     * correspondent respectivement aux champs "name" et "value" du formulaire
+     */
+    public function add(array $params): void
+    {
+        $book = new Book();
+        $book->setId(array_key_exists('bookId', $params) ? (int)$params['bookId'] : null);
+        $book->setName($params['bookName']);
+        $book->setPublisher($params['bookPublisher']);
+        $book->setPrice((float)$params['bookPrice']);
+        $this->bookManager->insert($book);
+        $this->all();
+    }
+
+    /**
+     * Modifie un livre avec les paramètres reçus
+     * @param array $params Tableau associatif dont les clefs et valeurs
+     * correspondent respectivement aux champs "name" et "value" du formulaire
+     * @throws Exception
+     */
+    public function modify(array $params): void
+    {
+        $book = new Book();
+        $book->setId($params['bookId']);
+        $book->setName($params['bookName']);
+        $book->setPublisher($params['bookPublisher']);
+        $book->setPrice(!empty($params['bookPrice']) ? (float)$params['bookPrice'] : null);
+        $this->bookManager->update($book);
+        $this->all();
     }
 
     /**

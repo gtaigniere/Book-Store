@@ -5,26 +5,24 @@ namespace App\Back\Manager;
 
 
 use App\Back\Model\Book;
+use Exception;
+use PDO;
 
 class BookManager
 {
+
     /**
-     * @var Book[]
+     * @var PDO
      */
-    private $books;
+    private $db;
 
     /**
      * BookManager constructor.
+     * @param PDO $db
      */
-    public function __construct()
+    public function __construct(PDO $db)
     {
-        $this->books = [
-            new Book(1, "Le mage", "Mister Fantasy", 9.90),
-            new Book(2, "Gagner la guerre", "Les moutons électriques", 28),
-            new Book(3, "La novice", "France loisirs", 25.99),
-            new Book(4, "Le roi des Murgos", "Pocket", 8.70),
-            new Book(5, "Le vaisseau elfique", "Payot & Rivages", 20.6)
-            ];
+        $this->db = $db;
     }
 
     /**
@@ -33,28 +31,84 @@ class BookManager
      */
     public function all(): array
     {
-        return $this->books;
+        $stmt = $this->db->query('SELECT * FROM book');
+        return $stmt->fetchAll(PDO::FETCH_CLASS, Book::class);
     }
 
     /**
-     * Renvoie les livres du résultat de la recherche
-     * @param array $criteria Tableau associatif dont les clefs et valeurs (si présentent)
-     * correspondent respectivement aux champs "name" et "value" du formulaire de recherche
-     * @return Book[]
+     * Renvoie le livre dont l'id est passé en paramètre
+     * @param int $id
+     * @return Book|null
      */
-    public function search(array $criteria): array
+    public function one(int $id): ?Book
     {
-        $books = [];
-        foreach ($this->books as $book) {
-            $criteriaId = !array_key_exists('bookId', $criteria) || empty($criteria['bookId']) || (int)$criteria['bookId'] === $book->getId();
-            $criteriaName = !array_key_exists('bookName', $criteria) || empty($criteria['bookName']) || is_int(strpos(strtolower($book->getName()), strtolower($criteria['bookName'])));
-            $criteriaPublisher = !array_key_exists('bookPublisher', $criteria) || empty($criteria['bookPublisher']) || is_int(strpos(strtolower($book->getPublisher()), strtolower($criteria['bookPublisher'])));
-            $criteriaPrice = !array_key_exists('bookPrice', $criteria) || empty($criteria['bookPrice']) || (float)$criteria['bookPrice'] === $book->getPrice();
-            if ($criteriaId && $criteriaName && $criteriaPublisher && $criteriaPrice) {
-                $books[] = $book;
+        $stmt = $this->db->prepare('SELECT * FROM book WHERE id = :id');
+        $stmt->execute([':id' => $id]);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, Book::class);
+        return $stmt->fetch();
+    }
+
+    /**
+     * Ajoute le livre passé en paramètre
+     * Renvoie celui-ci s'il a bien été ajouté, sinon null
+     * @param Book $book
+     * @return Book|null
+     */
+    public function insert(Book $book): ?Book
+    {
+        $stmt = $this->db->prepare( 'INSERT INTO book VALUES (:id, :name, :publisher, :price)');
+        $result = $stmt->execute([
+            ':id' => $book->getId(),
+            ':name' => $book->getName(),
+            ':publisher' => $book->getPublisher(),
+            ':price' => $book->getPrice()
+        ]);
+        return $result ? $this->one((int)$this->db->lastInsertId()) : null;
+    }
+
+    /**
+     * Modify le livre passé en paramètre
+     * Renvoie celui-ci s'il a bien été modifié
+     * @param Book $book
+     * @return Book
+     * @throws Exception
+     * <li>si la mise à jour a échoué</li>
+     * <li>si le livre n'existe pas en base de données</li>
+     */
+    public function update(Book $book): Book
+    {
+        if ($this->one($book->getId())) {
+            $stmt = $this->db->prepare('UPDATE book SET id = :id, name = :name, publisher = :publisher, price = :price WHERE id = :id');
+            $result = $stmt->execute([
+                ':id' => $book->getId(),
+                ':name' => $book->getName(),
+                ':publisher' => $book->getPublisher(),
+                ':price' => $book->getPrice()
+            ]);
+            if ($result) {
+                return $this->one($book->getId());
+            }
+            throw new Exception('Une erreur est survenue lors de la mise à jour du livre d\'id:' . $book->getId());
+        }
+        throw new Exception('Aucun livre n\'a été trouvé avec l\'id:' . $book->getId());
+    }
+
+    /**
+     * Compare deux livres
+     * S'ils sont identiques renvoie true, sinon false
+     * @param Book $oldBook
+     * @param Book $newBook
+     * @return bool
+     */
+    public function compareTwoBooks(Book $oldBook, Book $newBook): bool
+    {
+        foreach ((array)$oldBook as $key) {
+            $getter = 'get' . substr($key, 4);
+            if ($oldBook->$getter() !== $newBook->$getter()) {
+                return false;
             }
         }
-        return $books;
+        return true;
     }
 
 }
