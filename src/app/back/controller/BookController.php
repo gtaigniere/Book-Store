@@ -21,7 +21,7 @@ class BookController
      */
     public function __construct()
     {
-        $this->bookManager = new BookManager(App::getInstance()->Db());
+        $this->bookManager = new BookManager(App::getInstance()->getDb());
     }
 
     /**

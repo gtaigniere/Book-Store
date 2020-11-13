@@ -2,6 +2,8 @@
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
-use App\App;
+use App\router\Router;
 
-App::getInstance()->run();
+
+$router = new Router($_GET, $_POST);
+$router->route();
