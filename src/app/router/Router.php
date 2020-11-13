@@ -19,6 +19,11 @@ class Router
     private $postParams;
 
     /**
+     * @var BookController
+     */
+    private $bookController;
+
+    /**
      * Router constructor.
      * @param array $getParams
      * @param array $postParams
@@ -27,6 +32,7 @@ class Router
     {
         $this->getParams = $getParams;
         $this->postParams = $postParams;
+        $this->bookController = new BookController();
     }
 
     public function route()
@@ -55,32 +61,27 @@ class Router
 
     public function index()
     {
-        $ctrl = new BookController();
-        $ctrl->index();
+        $this->bookController->index();
     }
 
     public function all()
     {
-        $ctrl = new BookController();
-        $ctrl->all();
+        $this->bookController->all();
     }
 
     public function add()
     {
-        $ctrl = new BookController();
-        $ctrl->add($this->postParams);
+        $this->bookController->add($this->postParams);
     }
 
     public function modify()
     {
-        $ctrl = new BookController();
-        $ctrl->modify($this->postParams);
+        $this->bookController->modify($this->postParams);
     }
 
     public function search()
     {
-        $ctrl = new BookController();
-        $ctrl->search($this->getParams);
+        $this->bookController->search($this->getParams);
     }
 
 }
