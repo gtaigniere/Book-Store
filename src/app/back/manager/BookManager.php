@@ -38,13 +38,21 @@ class BookManager
      * Renvoie le livre dont l'id est passé en paramètre
      * @param int $id
      * @return Book|null
+     * @throws Exception Si l'accès au livre a échoué
      */
     public function one(int $id): ?Book
     {
         $stmt = $this->db->prepare('SELECT * FROM book WHERE id = :id');
-        $stmt->execute([':id' => $id]);
+        $exec = $stmt->execute([':id' => $id]);
         $stmt->setFetchMode(PDO::FETCH_CLASS, Book::class);
-        return $stmt->fetch();
+        if (!$exec) {
+            throw new Exception('Une erreur est survenue lors de l\'accès au livre d\'id:' . $id);
+        }
+        $result = $stmt->fetch();
+        if ($result == false) {
+            return null;
+        }
+        return $result;
     }
 
     /**
@@ -111,8 +119,9 @@ class BookManager
             if (!$result) {
                 throw new Exception('Une erreur est survenue lors de la suppression du livre d\'id:' . $id);
             }
+        } else {
+            throw new Exception('Aucun livre n\'a été trouvé avec l\'id:' . $id);
         }
-        throw new Exception('Aucun livre n\'a été trouvé avec l\'id:' . $id);
     }
 
     /**

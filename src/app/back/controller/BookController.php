@@ -56,6 +56,17 @@ class BookController
     }
 
     /**
+     * Affiche le livre dont l'id est passé en paramètre
+     * @param int $id
+     */
+    public function one(int $id)
+    {
+        $books = [];
+        $books[] = $this->bookManager->one($id);
+        $this->render('back/view/list.php', compact('books'));
+    }
+
+    /**
      * Crée un livre avec les paramètres reçus
      * Si l'id n'est pas précisé, il sera créé automatiquement
      * @param array $params Tableau associatif dont les clefs et valeurs
