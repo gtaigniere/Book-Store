@@ -52,7 +52,7 @@ class App
     }
 
     /**
-     * @return PDO connexion entre PHP et le serveur de base de données.
+     * @return PDO connexion entre PHP et le serveur de base de données
      */
     public function getDb(): PDO
     {

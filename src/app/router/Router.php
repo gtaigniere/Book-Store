@@ -37,51 +37,26 @@ class Router
 
     public function route()
     {
-        if (isset($this->getParams['target'])) {
-            switch ($this->getParams['target']) {
-                case 'all':
-                    $this->all();
-                    break;
-                case 'add':
-                    $this->add();
-                    break;
-                case 'modify':
-                    $this->modify();
-                    break;
-                case 'search':
-                    $this->search();
-                    break;
-                default:
-                    $this->all();
-            }
-        } else {
-            $this->all();
+        $target = array_key_exists('target', $this->getParams) ? $this->getParams['target'] : null;
+        switch ($target) {
+            case 'all':
+                $this->bookController->all();
+                break;
+            case 'one':
+                $this->bookController->one($this->getParams['id']);
+                break;
+            case 'add':
+                $this->bookController->add($this->postParams);
+                break;
+            case 'modify':
+                $this->bookController->modify($this->postParams);
+                break;
+            case 'search':
+                $this->bookController->search($this->getParams);
+                break;
+            default:
+                $this->bookController->all();
         }
-    }
-
-    public function index()
-    {
-        $this->bookController->index();
-    }
-
-    public function all()
-    {
-        $this->bookController->all();
-    }
-
-    public function add()
-    {
-        $this->bookController->add($this->postParams);
-    }
-
-    public function modify()
-    {
-        $this->bookController->modify($this->postParams);
-    }
-
-    public function search()
-    {
-        $this->bookController->search($this->getParams);
     }
 
 }

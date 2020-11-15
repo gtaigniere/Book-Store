@@ -10,7 +10,6 @@ use PDO;
 
 class BookManager
 {
-
     /**
      * @var PDO
      */
@@ -39,22 +38,27 @@ class BookManager
      * Renvoie le livre dont l'id est passé en paramètre
      * @param int $id
      * @return Book|null
+     * @throws Exception Si l'accès au livre a échoué
      */
     public function one(int $id): ?Book
     {
         $stmt = $this->db->prepare('SELECT * FROM book WHERE id = :id');
-        $stmt->execute([':id' => $id]);
+        if (!$stmt->execute([':id' => $id])) {
+            throw new Exception('Une erreur est survenue lors de l\'accès au livre d\'id:' . $id);
+        }
         $stmt->setFetchMode(PDO::FETCH_CLASS, Book::class);
-        return $stmt->fetch();
+        $result = $stmt->fetch();
+        return $result ? $result : null;
     }
 
     /**
      * Ajoute le livre passé en paramètre
      * Renvoie celui-ci s'il a bien été ajouté, sinon null
      * @param Book $book
-     * @return Book|null
+     * @return Book
+     * @throws Exception Si la mise à jour a échoué
      */
-    public function insert(Book $book): ?Book
+    public function insert(Book $book): Book
     {
         $stmt = $this->db->prepare( 'INSERT INTO book VALUES (:id, :name, :publisher, :price)');
         $result = $stmt->execute([
@@ -63,7 +67,10 @@ class BookManager
             ':publisher' => $book->getPublisher(),
             ':price' => $book->getPrice()
         ]);
-        return $result ? $this->one((int)$this->db->lastInsertId()) : null;
+        if ($result) {
+            return $this->one((int)$this->db->lastInsertId());
+        }
+        throw new Exception('Une erreur est survenue lors de l\'ajout du livre');
     }
 
     /**
