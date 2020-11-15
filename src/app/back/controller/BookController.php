@@ -96,7 +96,6 @@ class BookController
      * Modifie un livre avec les paramètres reçus
      * @param array $params Tableau associatif dont les clefs et valeurs
      * correspondent respectivement aux champs "name" et "value" du formulaire
-     * @throws Exception
      */
     public function modify(array $params): void
     {
@@ -107,6 +106,21 @@ class BookController
             $book->setPublisher($params['bookPublisher']);
             $book->setPrice(!empty($params['bookPrice']) ? (float)$params['bookPrice'] : null);
             $this->bookManager->update($book);
+            $this->all();
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+            echo $message;
+        } // TODO: Ajouter un finally en même temps que la gestion de l'erreur avec le message
+    }
+
+    /**
+     * Supprime le livre dont l'id est passé en paramètre
+     * @param int $id
+     */
+    public function delete(int $id): void
+    {
+        try {
+            $this->bookManager->delete($id);
             $this->all();
         } catch (Exception $e) {
             $message = $e->getMessage();

@@ -56,7 +56,7 @@ class BookManager
      * Renvoie celui-ci s'il a bien été ajouté, sinon null
      * @param Book $book
      * @return Book
-     * @throws Exception Si la mise à jour a échoué
+     * @throws Exception Si l'ajout a échoué
      */
     public function insert(Book $book): Book
     {
@@ -98,6 +98,25 @@ class BookManager
             throw new Exception('Une erreur est survenue lors de la mise à jour du livre d\'id:' . $book->getId());
         }
         throw new Exception('Aucun livre n\'a été trouvé avec l\'id:' . $book->getId());
+    }
+
+    /**
+     * Supprime le livre dont l'id est passé en paramètre
+     * @param int $id
+     * @throws Exception
+     * <li>si la suppression a échoué</li>
+     * <li>si le livre n'existe pas en base de données</li>
+     */
+    public function delete(int $id)
+    {
+        if ($this->one($id)) {
+            $stmt = $this->db->prepare('DELETE FROM book WHERE id = :id');
+            if (!$stmt->execute([':id' => $id])) {
+                throw new Exception('Une erreur est survenue lors de la suppression du livre d\'id:' . $id);
+            }
+        } else {
+            throw new Exception('Aucun livre n\'a été trouvé avec l\'id:' . $id);
+        }
     }
 
     /**

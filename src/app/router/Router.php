@@ -51,6 +51,9 @@ class Router
             case 'modify':
                 $this->bookController->modify($this->postParams);
                 break;
+            case 'delete':
+                $this->bookController->delete((int)$this->getParams['id']);
+                break;
             case 'search':
                 $this->bookController->search($this->getParams);
                 break;
