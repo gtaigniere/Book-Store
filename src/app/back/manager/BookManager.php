@@ -35,10 +35,8 @@ class BookManager
     }
 
     /**
-     * Renvoie le livre dont l'id est passé en paramètre
      * @param int $id
      * @return Book|null
-     * @throws Exception Si l'accès au livre a échoué
      */
     public function one(int $id): ?Book
     {
@@ -56,7 +54,7 @@ class BookManager
      * Renvoie celui-ci s'il a bien été ajouté, sinon null
      * @param Book $book
      * @return Book
-     * @throws Exception Si la mise à jour a échoué
+     * @throws Exception Si l'ajout a échoué
      */
     public function insert(Book $book): Book
     {
