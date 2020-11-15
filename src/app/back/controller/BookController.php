@@ -67,7 +67,7 @@ class BookController
         } catch (Exception $e) {
             $message = $e->getMessage();
             echo $message;
-        }
+        } // TODO: Ajouter un finally en même temps que la gestion de l'erreur avec le message
     }
 
     /**
@@ -89,7 +89,7 @@ class BookController
         } catch (Exception $e) {
             $message = $e->getMessage();
             echo $message;
-        }
+        } // TODO: Ajouter un finally en même temps que la gestion de l'erreur avec le message
     }
 
     /**
@@ -111,7 +111,7 @@ class BookController
         } catch (Exception $e) {
             $message = $e->getMessage();
             echo $message;
-        }
+        } // TODO: Ajouter un finally en même temps que la gestion de l'erreur avec le message
     }
 
     /**
