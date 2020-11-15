@@ -5,7 +5,6 @@ namespace App;
 
 include_once 'config/config.php';
 
-use App\router\Router;
 use PDO;
 
 /**
@@ -24,11 +23,6 @@ class App
     private static $instance;
 
     /**
-     * @var Router Routeur de l'application
-     */
-    private $router;
-
-    /**
      * @var PDO connexion entre PHP et le serveur de base de données
      */
     private $db;
@@ -38,7 +32,6 @@ class App
      */
     private function __construct()
     {
-        $this->router = new Router($_GET, $_POST);
         $this->db = new PDO(
             CONFIG['db.driver'] . ':host=' . CONFIG['db.host'] . ';' . 'dbname=' . CONFIG['db.name'],
             CONFIG['db.user'],
@@ -59,18 +52,10 @@ class App
     }
 
     /**
-     * @return PDO connexion entre PHP et le serveur de base de données.
+     * @return PDO connexion entre PHP et le serveur de base de données
      */
     public function getDb(): PDO
     {
         return $this->db;
-    }
-
-    /**
-     * Lance l'application, effectue le routing
-     */
-    public function run()
-    {
-        $this->router->route();
     }
 }

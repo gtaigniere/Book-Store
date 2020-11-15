@@ -8,35 +8,35 @@ if (isset($books)) {
         <div>
             <table class="color_line">
                 <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nom</th>
-                        <th>Editeur</th>
-                        <th>Prix</th>
-                        <th>Modification</th>
-                    </tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Editeur</th>
+                    <th>Prix</th>
+                    <th>Modification</th>
+                </tr>
                 </thead>
 
                 <tbody>
 
-                    <?php foreach ($books as $book) : ?>
+                <?php foreach ($books as $book) : ?>
 
-                        <?php if ($book instanceof Book) : ?>
+                    <?php if ($book instanceof Book) : ?>
 
-                            <tr>
-                                <td><?= $book->getId(); ?></td>
-                                <td><?= $book->getName(); ?></td>
-                                <td><?= $book->getPublisher(); ?></td>
-                                <td><?= $book->getPrice(); ?></td>
-                                <td>
-                                    <a class="btn btn-warning" href=""><i class="fas fa-edit"></i></a>
-                                    <a class="btn btn-danger" href=""><i class="fas fa-trash"></i></a>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td><?= $book->getId(); ?></td>
+                            <td><?= $book->getName(); ?></td>
+                            <td><?= $book->getPublisher(); ?></td>
+                            <td><?= $book->getPrice(); ?></td>
+                            <td>
+                                <a class="btn btn-warning" href=""><i class="fas fa-edit"></i></a>
+                                <a class="btn btn-danger" href=""><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
 
-                        <?php endif; ?>
+                    <?php endif; ?>
 
-                    <?php endforeach; ?>
+                <?php endforeach; ?>
 
                 </tbody>
             </table>
