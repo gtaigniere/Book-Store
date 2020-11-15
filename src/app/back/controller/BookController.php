@@ -61,9 +61,13 @@ class BookController
      */
     public function one(int $id)
     {
-        $books = [];
-        $books[] = $this->bookManager->one($id);
-        $this->render('back/view/list.php', compact('books'));
+        try {
+            $books[] = $this->bookManager->one($id);
+            $this->render('back/view/list.php', compact('books'));
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+            echo $message;
+        }
     }
 
     /**
@@ -71,7 +75,6 @@ class BookController
      * Si l'id n'est pas précisé, il sera créé automatiquement
      * @param array $params Tableau associatif dont les clefs et valeurs
      * correspondent respectivement aux champs "name" et "value" du formulaire
-     * @throws Exception
      */
     public function add(array $params): void
     {
@@ -82,10 +85,14 @@ class BookController
             $book->setPublisher($params['bookPublisher']);
             $book->setPrice((float)$params['bookPrice']);
             $this->bookManager->insert($book);
-            $this->all();
         } catch (Exception $e) {
-            $e->getMessage();
+            $message = $e->getMessage();
+            echo $message;
         }
+            // Appel de la fonction pour le message
+//        } finally {
+//            $this->all();
+//        }
     }
 
     /**
@@ -105,7 +112,8 @@ class BookController
             $this->bookManager->update($book);
             $this->all();
         } catch (Exception $e) {
-            $e->getMessage();
+            $message = $e->getMessage();
+            echo $message;
         }
     }
 
@@ -120,7 +128,8 @@ class BookController
             $this->bookManager->delete($id);
             $this->all();
         } catch (Exception $e) {
-            $e->getMessage();
+            $message = $e->getMessage();
+            echo $message;
         }
     }
 

@@ -43,16 +43,12 @@ class BookManager
     public function one(int $id): ?Book
     {
         $stmt = $this->db->prepare('SELECT * FROM book WHERE id = :id');
-        $exec = $stmt->execute([':id' => $id]);
-        $stmt->setFetchMode(PDO::FETCH_CLASS, Book::class);
-        if (!$exec) {
+        if (!$stmt->execute([':id' => $id])) {
             throw new Exception('Une erreur est survenue lors de l\'accès au livre d\'id:' . $id);
         }
+        $stmt->setFetchMode(PDO::FETCH_CLASS, Book::class);
         $result = $stmt->fetch();
-        if ($result == false) {
-            return null;
-        }
-        return $result;
+        return $result ? $result : null;
     }
 
     /**
@@ -115,8 +111,7 @@ class BookManager
     {
         if ($this->one($id)) {
             $stmt = $this->db->prepare('DELETE FROM book WHERE id = :id');
-            $result = $stmt->execute([':id' => $id]);
-            if (!$result) {
+            if (!$stmt->execute([':id' => $id])) {
                 throw new Exception('Une erreur est survenue lors de la suppression du livre d\'id:' . $id);
             }
         } else {
