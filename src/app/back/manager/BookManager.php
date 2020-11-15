@@ -35,8 +35,10 @@ class BookManager
     }
 
     /**
+     * Renvoie le livre dont l'id est passé en paramètre
      * @param int $id
      * @return Book|null
+     * @throws Exception Si l'accès au livre a échoué
      */
     public function one(int $id): ?Book
     {

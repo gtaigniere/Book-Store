@@ -8,20 +8,20 @@ if (isset($books)) {
         <div>
             <table class="color_line">
                 <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nom</th>
-                        <th>Editeur</th>
-                        <th>Prix</th>
-                        <th>Modification</th>
-                    </tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Editeur</th>
+                    <th>Prix</th>
+                    <th>Modification</th>
+                </tr>
                 </thead>
 
                 <tbody>
 
-                    <?php foreach ($books as $book) : ?>
+                <?php foreach ($books as $book) : ?>
 
-                        <?php if ($book instanceof Book) : ?>
+                    <?php if ($book instanceof Book) : ?>
 
                             <tr>
                                 <td><?= $book->getId(); ?></td>
@@ -34,9 +34,9 @@ if (isset($books)) {
                                 </td>
                             </tr>
 
-                        <?php endif; ?>
+                    <?php endif; ?>
 
-                    <?php endforeach; ?>
+                <?php endforeach; ?>
 
                 </tbody>
             </table>
