@@ -44,11 +44,15 @@ class BookManager
     {
         $stmt = $this->db->prepare('SELECT * FROM book WHERE id = :id');
         if (!$stmt->execute([':id' => $id])) {
-            throw new Exception('Une erreur est survenue lors de l\'accès au livre d\'id:' . $id);
+            throw new Exception('Une erreur est survenue lors de l\'accès au livre d\'id : ' . $id);
         }
         $stmt->setFetchMode(PDO::FETCH_CLASS, Book::class);
         $result = $stmt->fetch();
-        return $result ? $result : null;
+//        return $result ? $result : null;
+        if (!$result) {
+            throw new Exception('Aucun livre n\'a été trouvé avec l\'id : ' . $id);
+        }
+        return $result;
     }
 
     /**
@@ -95,9 +99,9 @@ class BookManager
             if ($result) {
                 return $this->one($book->getId());
             }
-            throw new Exception('Une erreur est survenue lors de la mise à jour du livre d\'id:' . $book->getId());
+            throw new Exception('Une erreur est survenue lors de la mise à jour du livre d\'id : ' . $book->getId());
         }
-        throw new Exception('Aucun livre n\'a été trouvé avec l\'id:' . $book->getId());
+        throw new Exception('Aucun livre n\'a été trouvé avec l\'id : ' . $book->getId());
     }
 
     /**
@@ -112,10 +116,10 @@ class BookManager
         if ($this->one($id)) {
             $stmt = $this->db->prepare('DELETE FROM book WHERE id = :id');
             if (!$stmt->execute([':id' => $id])) {
-                throw new Exception('Une erreur est survenue lors de la suppression du livre d\'id:' . $id);
+                throw new Exception('Une erreur est survenue lors de la suppression du livre d\'id : ' . $id);
             }
         } else {
-            throw new Exception('Aucun livre n\'a été trouvé avec l\'id:' . $id);
+            throw new Exception('Aucun livre n\'a été trouvé avec l\'id : ' . $id);
         }
     }
 
