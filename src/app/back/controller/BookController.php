@@ -6,6 +6,7 @@ namespace App\Back\Controller;
 
 use App\App;
 use App\Back\Manager\BookManager;
+use App\Back\Manager\ErrorManager;
 use App\Back\Model\Book;
 use Exception;
 
@@ -61,13 +62,14 @@ class BookController
      */
     public function one(int $id)
     {
+        $books = [];
         try {
             $books[] = $this->bookManager->one($id);
-            $this->render('back/view/list.php', compact('books'));
         } catch (Exception $e) {
-            $message = $e->getMessage();
-            echo $message;
-        } // TODO: Ajouter un finally en même temps que la gestion de l'erreur avec le message
+            ErrorManager::add($e->getMessage());
+        } finally {
+            $this->render('back/view/list.php', compact('books'));
+        }
     }
 
     /**
@@ -85,11 +87,11 @@ class BookController
             $book->setPublisher($params['bookPublisher']);
             $book->setPrice((float)$params['bookPrice']);
             $this->bookManager->insert($book);
-            $this->all();
         } catch (Exception $e) {
-            $message = $e->getMessage();
-            echo $message;
-        } // TODO: Ajouter un finally en même temps que la gestion de l'erreur avec le message
+            ErrorManager::add($e->getMessage());
+        } finally {
+            $this->all();
+        }
     }
 
     /**
@@ -108,14 +110,16 @@ class BookController
             $this->bookManager->update($book);
             $this->all();
         } catch (Exception $e) {
-            $message = $e->getMessage();
-            echo $message;
-        } // TODO: Ajouter un finally en même temps que la gestion de l'erreur avec le message
+            ErrorManager::add($e->getMessage());
+        } finally {
+            $this->all();
+        }
     }
 
     /**
      * Supprime le livre dont l'id est passé en paramètre
      * @param int $id
+     * @throws Exception
      */
     public function delete(int $id): void
     {
@@ -123,9 +127,10 @@ class BookController
             $this->bookManager->delete($id);
             $this->all();
         } catch (Exception $e) {
-            $message = $e->getMessage();
-            echo $message;
-        } // TODO: Ajouter un finally en même temps que la gestion de l'erreur avec le message
+            ErrorManager::add($e->getMessage());
+        } finally {
+            $this->all();
+        }
     }
 
     /**

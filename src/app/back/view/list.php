@@ -1,10 +1,21 @@
 <?php
 
+use App\Back\Manager\ErrorManager;
 use App\Back\Model\Book;
 
 if (isset($books)) {
 ?>
     <section id="sect-all">
+
+        <?php
+        foreach (ErrorManager::getMessages() as $message) : ?>
+            <p class="alert alert-danger" role="alert">
+                <?= $message ?>
+            </p>
+        <?php endforeach;
+        ErrorManager::destroy();
+        ?>
+
         <div>
             <table class="color_line">
                 <thead>

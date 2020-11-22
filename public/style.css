@@ -117,8 +117,14 @@ form > div:last-child i {
 #sect-all {
     margin-top: 25px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     width: 100%;
+}
+#sect-all .alert {
+    margin-bottom: 35px;
+    border-radius: 8px
 }
 table {
     width: 1110px;
