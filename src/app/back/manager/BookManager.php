@@ -134,25 +134,24 @@ class BookManager
         $reqParts = [];
         $params = [];
         if (empty($criteria['bookId']) && empty($criteria['bookName']) && empty($criteria['bookPublisher']) && empty($criteria['bookPrice'])) {
-            $this->all();
-        } else {
-            $req .= ' WHERE ';
-            if (array_key_exists('bookId', $criteria) && !empty($criteria['bookId'])) {
-                $reqParts['id'] = 'id = :id';
-                $params[':id'] = $criteria['bookId'];
-            }
-            if (array_key_exists('bookName', $criteria) && !empty($criteria['bookName'])) {
-                $reqParts['name'] = 'name like :name';
-                $params[':name'] = '%' . $criteria['bookName'] . '%';
-            }
-            if (array_key_exists('bookPublisher', $criteria) && !empty($criteria['bookPublisher'])) {
-                $reqParts['publisher'] = 'publisher like :publisher';
-                $params[':publisher'] = '%' . $criteria['bookPublisher'] . '%';
-            }
-            if (array_key_exists('bookPrice', $criteria) && !empty($criteria['bookPrice'])) {
-                $reqParts['price'] = 'price = :price';
-                $params[':price'] = $criteria['bookPrice'];
-            }
+            return $this->all();
+        }
+        $req .= ' WHERE ';
+        if (array_key_exists('bookId', $criteria) && !empty($criteria['bookId'])) {
+            $reqParts['id'] = 'id = :id';
+            $params[':id'] = $criteria['bookId'];
+        }
+        if (array_key_exists('bookName', $criteria) && !empty($criteria['bookName'])) {
+            $reqParts['name'] = 'name like :name';
+            $params[':name'] = '%' . $criteria['bookName'] . '%';
+        }
+        if (array_key_exists('bookPublisher', $criteria) && !empty($criteria['bookPublisher'])) {
+            $reqParts['publisher'] = 'publisher like :publisher';
+            $params[':publisher'] = '%' . $criteria['bookPublisher'] . '%';
+        }
+        if (array_key_exists('bookPrice', $criteria) && !empty($criteria['bookPrice'])) {
+            $reqParts['price'] = 'price = :price';
+            $params[':price'] = $criteria['bookPrice'];
         }
         $stmt = $this->db->prepare($req . join(' AND ', $reqParts));
         if (!$stmt->execute($params)) {
