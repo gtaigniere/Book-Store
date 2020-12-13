@@ -124,6 +124,43 @@ class BookManager
     }
 
     /**
+     * @param $criteria
+     * @return Book[]
+     * @throws Exception
+     */
+    public function search($criteria): array
+    {
+        $req = 'SELECT * FROM book';
+        $reqParts = [];
+        $params = [];
+        if (empty($criteria['bookId']) && empty($criteria['bookName']) && empty($criteria['bookPublisher']) && empty($criteria['bookPrice'])) {
+            return $this->all();
+        }
+        $req .= ' WHERE ';
+        if (array_key_exists('bookId', $criteria) && !empty($criteria['bookId'])) {
+            $reqParts['id'] = 'id = :id';
+            $params[':id'] = $criteria['bookId'];
+        }
+        if (array_key_exists('bookName', $criteria) && !empty($criteria['bookName'])) {
+            $reqParts['name'] = 'name like :name';
+            $params[':name'] = '%' . $criteria['bookName'] . '%';
+        }
+        if (array_key_exists('bookPublisher', $criteria) && !empty($criteria['bookPublisher'])) {
+            $reqParts['publisher'] = 'publisher like :publisher';
+            $params[':publisher'] = '%' . $criteria['bookPublisher'] . '%';
+        }
+        if (array_key_exists('bookPrice', $criteria) && !empty($criteria['bookPrice'])) {
+            $reqParts['price'] = 'price = :price';
+            $params[':price'] = $criteria['bookPrice'];
+        }
+        $stmt = $this->db->prepare($req . join(' AND ', $reqParts));
+        if (!$stmt->execute($params)) {
+            throw new Exception('Une erreur est survenue lors de la recherche');
+        }
+        return $stmt->fetchAll(PDO::FETCH_CLASS, Book::class);
+    }
+
+    /**
      * Compare deux livres
      * S'ils sont identiques renvoie true, sinon false
      * @param Book $oldBook
