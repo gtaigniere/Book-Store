@@ -125,40 +125,78 @@ class BookManager
 
     /**
      * Renvoie les livres du résultat de la recherche
-     * @param $criteria
+     * @param array $criteria
      * @return Book[]
      * @throws Exception
      */
-    public function search($criteria): array
+    public function search(array $criteria): array
     {
-        $req = 'SELECT * FROM book';
-        $reqParts = [];
-        $params = [];
-        if (empty($criteria['bookId']) && empty($criteria['bookName']) && empty($criteria['bookPublisher']) && empty($criteria['bookPrice'])) {
-            return $this->all();
-        }
-        $req .= ' WHERE ';
-        if (array_key_exists('bookId', $criteria) && !empty($criteria['bookId'])) {
-            $reqParts['id'] = 'id = :id';
-            $params[':id'] = $criteria['bookId'];
-        }
-        if (array_key_exists('bookName', $criteria) && !empty($criteria['bookName'])) {
-            $reqParts['name'] = 'name like :name';
-            $params[':name'] = '%' . $criteria['bookName'] . '%';
-        }
-        if (array_key_exists('bookPublisher', $criteria) && !empty($criteria['bookPublisher'])) {
-            $reqParts['publisher'] = 'publisher like :publisher';
-            $params[':publisher'] = '%' . $criteria['bookPublisher'] . '%';
-        }
-        if (array_key_exists('bookPrice', $criteria) && !empty($criteria['bookPrice'])) {
-            $reqParts['price'] = 'price = :price';
-            $params[':price'] = $criteria['bookPrice'];
-        }
-        $stmt = $this->db->prepare($req . join(' AND ', $reqParts));
+        $extractParams = $this->extractParameters($criteria);
+        $request = $this->generateRequest($extractParams);
+        $params = $this->generateFilterParameters($extractParams, ['book']);
+
+        $stmt = $this->db->prepare($request);
         if (!$stmt->execute($params)) {
             throw new Exception('Une erreur est survenue lors de la recherche');
         }
         return $stmt->fetchAll(PDO::FETCH_CLASS, Book::class);
+    }
+
+    /**
+     * Supprime les parties vides du tableau de critères
+     * @param array $criteria
+     * @return array
+     */
+    private function extractParameters(array $criteria): array
+    {
+        $params = [];
+        foreach ($criteria as $key => $criterion) {
+            if (!empty($criterion)) {
+                $params[$key] = $criterion;
+            }
+        }
+        return $params;
+    }
+
+    /**
+     * Génère la requête en fonction des paramètres
+     * @param array $params
+     * @return string
+     */
+    private function generateRequest(array $params): string
+    {
+        $startReq = 'SELECT * FROM book';
+        $reqParts = [];
+        foreach ($params as $key => $value) {
+            if (is_numeric($value)) {
+                $reqParts[$key] = $key . ' = :' . $key;
+            } else {
+                $reqParts[$key] = $key . ' like :' . $key;
+            }
+        }
+        return $startReq . join(' AND ', $reqParts);
+    }
+
+    /**
+     * Filtre le tableau de critères et en renomme les clés,
+     * par exemple si le filtre est 'book', comme ceci :
+     * 'bookId' = > 'id', 'bookName' => 'name', etc...
+     * @param array $criteria
+     * @param array $filters
+     * @return array
+     */
+    private function generateFilterParameters(array $criteria, array $filters): array
+    {
+        $params = [];
+        foreach ($criteria as $key => $criterion) {
+            $key = strtolower(preg_replace($filters, '', $key));
+            if (is_numeric($criterion)) {
+                $params[':' . $key] = $criterion;
+            } else {
+                $params[':' . $key] = '%' . $criterion . '%';
+            }
+        }
+        return $params;
     }
 
     /**
