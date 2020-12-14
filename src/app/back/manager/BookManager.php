@@ -131,10 +131,13 @@ class BookManager
      */
     public function search(array $criteria): array
     {
-        $extractParams = $this->extractParameters($criteria);
-        $request = $this->generateRequest($extractParams);
-        $params = $this->generateFilterParameters($extractParams, ['book']);
-
+        $arrayAssocs = ['bookId' => 'id', 'bookName' => 'name', 'bookPublisher' => 'publisher', 'bookPrice' => 'price'];
+        $extractParams = $this->extractParameters($criteria, $arrayAssocs);
+        if (empty($extractParams)) {
+            return $this->all();
+        }
+        $request = $this->generateFilterRequest($extractParams);
+        $params = $this->generateFilterParameters($extractParams);
         $stmt = $this->db->prepare($request);
         if (!$stmt->execute($params)) {
             throw new Exception('Une erreur est survenue lors de la recherche');
@@ -143,15 +146,20 @@ class BookManager
     }
 
     /**
-     * Supprime les parties vides du tableau de critères
+     * Filtre le tableau de critères et en renomme les clés,
+     * par exemple si le filtre est 'book', comme ceci :
+     * 'bookId' = > 'id', 'bookName' => 'name', etc...
      * @param array $criteria
+     * @param array $arrayAssocs
      * @return array
      */
-    private function extractParameters(array $criteria): array
+    private function extractParameters(array $criteria, array $arrayAssocs): array
     {
         $params = [];
+        $criteria = array_intersect_key($criteria, $arrayAssocs);
         foreach ($criteria as $key => $criterion) {
             if (!empty($criterion)) {
+                $key = strtolower(preg_replace('/^book/', '', $key));
                 $params[$key] = $criterion;
             }
         }
@@ -163,7 +171,7 @@ class BookManager
      * @param array $params
      * @return string
      */
-    private function generateRequest(array $params): string
+    private function generateFilterRequest(array $params): string
     {
         $startReq = 'SELECT * FROM book';
         $reqParts = [];
@@ -174,22 +182,18 @@ class BookManager
                 $reqParts[$key] = $key . ' like :' . $key;
             }
         }
-        return $startReq . join(' AND ', $reqParts);
+        return $startReq . ' WHERE ' . join(' AND ', $reqParts);
     }
 
     /**
-     * Filtre le tableau de critères et en renomme les clés,
-     * par exemple si le filtre est 'book', comme ceci :
-     * 'bookId' = > 'id', 'bookName' => 'name', etc...
+     * Génère le tableau de paramètres à fournir à PDOStatement::execute()
      * @param array $criteria
-     * @param array $filters
      * @return array
      */
-    private function generateFilterParameters(array $criteria, array $filters): array
+    private function generateFilterParameters(array $criteria): array
     {
         $params = [];
         foreach ($criteria as $key => $criterion) {
-            $key = strtolower(preg_replace($filters, '', $key));
             if (is_numeric($criterion)) {
                 $params[':' . $key] = $criterion;
             } else {
