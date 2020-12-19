@@ -146,21 +146,20 @@ class BookManager
     }
 
     /**
-     * Filtre le tableau de critères et en renomme les clés,
-     * par exemple si le filtre est 'book', comme ceci :
-     * 'bookId' = > 'id', 'bookName' => 'name', etc...
+     * Filtre le tableau de critères en supprimant les clefs/valeurs
+     * dont les clefs ne sont pas présentes dans $arrayAssocs
+     * et en renommant les clefs comme indiqué dans $arrayAssocs
      * @param array $criteria
-     * @param array $arrayAssocs
+     * @param array $arrayAssocs oldName => newName
      * @return array
      */
     private function extractParameters(array $criteria, array $arrayAssocs): array
     {
         $params = [];
-        $criteria = array_intersect_key($criteria, $arrayAssocs);
-        foreach ($criteria as $key => $criterion) {
-            if (!empty($criterion)) {
-                $key = strtolower(preg_replace('/^book/', '', $key));
-                $params[$key] = $criterion;
+        $criteria = array_intersect_key($criteria, $arrayAssocs); // Ancienne clef => Nouvelle clef
+        foreach ($criteria as $key => $value) {
+            if (!empty($value)) {
+                $params[$arrayAssocs[$key]] = $value;
             }
         }
         return $params;
