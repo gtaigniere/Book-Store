@@ -43,7 +43,7 @@ class Router
                 $this->bookController->all();
                 break;
             case 'one':
-                $this->bookController->one($this->getParams['id']);
+                $this->bookController->one((int)$this->getParams['id']);
                 break;
             case 'add':
                 $this->bookController->add($this->postParams);
