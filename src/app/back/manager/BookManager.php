@@ -125,40 +125,81 @@ class BookManager
 
     /**
      * Renvoie les livres du résultat de la recherche
-     * @param $criteria
+     * @param array $criteria
      * @return Book[]
      * @throws Exception
      */
-    public function search($criteria): array
+    public function search(array $criteria): array
     {
-        $req = 'SELECT * FROM book';
-        $reqParts = [];
-        $params = [];
-        if (empty($criteria['bookId']) && empty($criteria['bookName']) && empty($criteria['bookPublisher']) && empty($criteria['bookPrice'])) {
+        $arrayAssocs = ['bookId' => 'id', 'bookName' => 'name', 'bookPublisher' => 'publisher', 'bookPrice' => 'price'];
+        $extractParams = $this->extractParameters($criteria, $arrayAssocs);
+        if (empty($extractParams)) {
             return $this->all();
         }
-        $req .= ' WHERE ';
-        if (array_key_exists('bookId', $criteria) && !empty($criteria['bookId'])) {
-            $reqParts['id'] = 'id = :id';
-            $params[':id'] = $criteria['bookId'];
-        }
-        if (array_key_exists('bookName', $criteria) && !empty($criteria['bookName'])) {
-            $reqParts['name'] = 'name like :name';
-            $params[':name'] = '%' . $criteria['bookName'] . '%';
-        }
-        if (array_key_exists('bookPublisher', $criteria) && !empty($criteria['bookPublisher'])) {
-            $reqParts['publisher'] = 'publisher like :publisher';
-            $params[':publisher'] = '%' . $criteria['bookPublisher'] . '%';
-        }
-        if (array_key_exists('bookPrice', $criteria) && !empty($criteria['bookPrice'])) {
-            $reqParts['price'] = 'price = :price';
-            $params[':price'] = $criteria['bookPrice'];
-        }
-        $stmt = $this->db->prepare($req . join(' AND ', $reqParts));
+        $request = $this->generateFilterRequest($extractParams);
+        $params = $this->generateFilterParameters($extractParams);
+        $stmt = $this->db->prepare($request);
         if (!$stmt->execute($params)) {
             throw new Exception('Une erreur est survenue lors de la recherche');
         }
         return $stmt->fetchAll(PDO::FETCH_CLASS, Book::class);
+    }
+
+    /**
+     * Filtre le tableau de critères en supprimant les clefs/valeurs
+     * dont les clefs ne sont pas présentes dans $arrayAssocs
+     * et en renommant les clefs comme indiqué dans $arrayAssocs
+     * @param array $criteria
+     * @param array $arrayAssocs oldName => newName
+     * @return array
+     */
+    private function extractParameters(array $criteria, array $arrayAssocs): array
+    {
+        $params = [];
+        $criteria = array_intersect_key($criteria, $arrayAssocs); // Ancienne clef => Nouvelle clef
+        foreach ($criteria as $key => $value) {
+            if (!empty($value)) {
+                $params[$arrayAssocs[$key]] = $value;
+            }
+        }
+        return $params;
+    }
+
+    /**
+     * Génère la requête en fonction des paramètres
+     * @param array $params
+     * @return string
+     */
+    private function generateFilterRequest(array $params): string
+    {
+        $startReq = 'SELECT * FROM book';
+        $reqParts = [];
+        foreach ($params as $key => $value) {
+            if (is_numeric($value)) {
+                $reqParts[$key] = $key . ' = :' . $key;
+            } else {
+                $reqParts[$key] = $key . ' like :' . $key;
+            }
+        }
+        return $startReq . ' WHERE ' . join(' AND ', $reqParts);
+    }
+
+    /**
+     * Génère le tableau de paramètres à fournir à PDOStatement::execute()
+     * @param array $criteria
+     * @return array
+     */
+    private function generateFilterParameters(array $criteria): array
+    {
+        $params = [];
+        foreach ($criteria as $key => $criterion) {
+            if (is_numeric($criterion)) {
+                $params[':' . $key] = $criterion;
+            } else {
+                $params[':' . $key] = '%' . $criterion . '%';
+            }
+        }
+        return $params;
     }
 
     /**

@@ -1,5 +1,5 @@
 {
-    "name": "matthieu/book-store",
+    "name": "gilles/book-store",
     "require": {
       "ext-pdo": "*"
     },
