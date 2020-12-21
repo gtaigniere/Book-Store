@@ -62,13 +62,19 @@ class BookController
      */
     public function one(int $id)
     {
-        $books = [];
+        $criteria = [];
         try {
-            $books[] = $this->bookManager->one($id);
+            $book = $this->bookManager->one($id);
+            $criteria['bookId'] = $book->getId();
+            $criteria['bookName'] = $book->getName();
+            $criteria['bookPublisher'] = $book->getPublisher();
+            $criteria['bookPrice'] = $book->getPrice();
+            // ToDo : Passer par un objet Form par la suite
         } catch (Exception $e) {
             ErrorManager::add($e->getMessage());
         } finally {
-            $this->render('back/view/list.php', compact('books'));
+            $books = $this->bookManager->all();
+            $this->render('back/view/list.php', compact('books', 'criteria'));
         }
     }
 

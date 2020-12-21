@@ -40,7 +40,7 @@ if (isset($books)) {
                                 <td><?= $book->getPublisher(); ?></td>
                                 <td><?= $book->getPrice(); ?></td>
                                 <td>
-                                    <a class="btn btn-warning" href=""><i class="fas fa-edit"></i></a>
+                                    <a class="btn btn-warning" href="?target=one&id=<?= $book->getId(); ?>"><i class="fas fa-edit"></i></a>
                                     <a class="btn btn-danger" href="?target=delete&id=<?= $book->getId(); ?>"><i class="fas fa-trash"></i></a>
                                 </td>
                             </tr>
