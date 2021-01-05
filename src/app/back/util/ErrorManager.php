@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Back\Manager;
+namespace App\Back\Util;
 
 /**
  * Permet de créer des messages d'erreur et de les supprimer

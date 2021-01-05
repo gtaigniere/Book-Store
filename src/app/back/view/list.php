@@ -1,7 +1,10 @@
 <?php
 
-use App\Back\Manager\ErrorManager;
-use App\Back\Model\Book;
+use App\Back\{
+    Util\ErrorManager,
+    Util\SuccessManager,
+    Model\Book
+};
 
 if (isset($books)) {
 ?>
@@ -14,6 +17,14 @@ if (isset($books)) {
             </p>
         <?php endforeach;
         ErrorManager::destroy();
+        ?>
+        <?php
+        foreach (ErrorManager::getMessages() as $message) : ?>
+            <p class="alert alert-success" role="alert">
+                <?= $message ?>
+            </p>
+        <?php endforeach;
+        SuccessManager::destroy();
         ?>
 
         <div>

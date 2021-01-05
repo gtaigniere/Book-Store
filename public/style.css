@@ -71,7 +71,7 @@ form > div > div {
     height: 38px;
     width: 262px;
 }
-form > div figure {
+form > div label {
     padding-top: 5px;
     height: 38px;
     width: 38px;
@@ -80,7 +80,7 @@ form > div figure {
     border-right: none;
     border-radius: .25rem 0 0 .25rem;
 }
-form > div > figure > i, form > div > div > figure i {
+form > div > label > i, form > div > div > figure i {
     color: #495057;
 }
 form > div input {
