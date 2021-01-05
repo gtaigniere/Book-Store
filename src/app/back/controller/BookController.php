@@ -4,10 +4,13 @@
 namespace App\Back\Controller;
 
 
-use App\App;
-use App\Back\Manager\BookManager;
-use App\Back\Manager\ErrorManager;
-use App\Back\Model\Book;
+use App\{
+    App,
+    Back\Manager\BookManager,
+    Back\Model\Book,
+    Back\Util\ErrorManager,
+    Back\Util\Form
+};
 use Exception;
 
 class BookController
@@ -53,7 +56,8 @@ class BookController
     public function all(): void
     {
         $books = $this->bookManager->all();
-        $this->render('back/view/list.php', compact('books'));
+        $form = new Form();
+        $this->render('back/view/list.php', compact('books', 'form'));
     }
 
     /**
@@ -74,7 +78,8 @@ class BookController
             ErrorManager::add($e->getMessage());
         } finally {
             $books = $this->bookManager->all();
-            $this->render('back/view/list.php', compact('books', 'criteria'));
+            $form = new Form($criteria);
+            $this->render('back/view/list.php', compact('books', 'form',  'criteria'));
         }
     }
 
@@ -148,7 +153,8 @@ class BookController
     public function search(array $criteria): void
     {
         $books = $this->bookManager->search($criteria);
-        $this->render('back/view/list.php', compact('books', 'criteria'));
+        $form = new Form($criteria);
+        $this->render('back/view/list.php', compact('books', 'form', 'criteria'));
     }
 
 }
