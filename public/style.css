@@ -51,12 +51,12 @@ header > h1 {
     display: flex;
     justify-content: center;
 }
-form {
+form, #book-div {
     display: flex;
     flex-direction: column;
     width: 50%;
 }
-form > div {
+form > div, #book-div > div, #book-div > p {
     display: flex;
     margin-bottom: .5rem;
     padding-top: .5rem;
@@ -65,13 +65,13 @@ form > div {
     border-radius: .25rem;
     text-align: center;
 }
-form > div > div {
+form > div > div, #book-div > div > p {
     display: flex;
     justify-content: space-between;
     height: 38px;
     width: 262px;
 }
-form > div label {
+form > div label, #book-div p .label {
     padding-top: 5px;
     height: 38px;
     width: 38px;
@@ -80,10 +80,10 @@ form > div label {
     border-right: none;
     border-radius: .25rem 0 0 .25rem;
 }
-form > div > label > i, form > div > div > figure i {
+form > div > label > i, #book-div i {
     color: #495057;
 }
-form > div input {
+form > div input, #book-div p .input {
     padding-left: 12px;
     border-radius: 0 .25rem .25rem 0;
     border-left: none;
@@ -92,10 +92,15 @@ form > div input {
 form > div input, form > div > div input {
     border: 1px solid lightgrey;
 }
-form > div > div figure {
-    border-right: none;
+#book-div .input {
+    padding-top: 5px;
+    border: 1px solid lightgrey;
+    text-align: left;
 }
-form > div:nth-child(3) {
+/*form > div > div figure {*/
+/*    border-right: none;*/
+/*}*/
+form > div:nth-child(3), #book-div > div:nth-child(3) {
     display: flex;
     justify-content: space-between;
 }
@@ -110,9 +115,6 @@ form > div:last-child button {
 }
 form > div:last-child i {
     font-size: 1.25rem;
-}
-#book-form div:last-child {
-    justify-content: space-between;
 }
 /***** Fin Form *****/
 /***** Debut Sections *****/

@@ -1,7 +1,7 @@
 <?php
 use App\Back\Util\Form;
 
-if (isset($section, $searchForm)) {
+if (isset($section)) {
 ?>
 
     <!doctype html>
@@ -31,7 +31,12 @@ if (isset($section, $searchForm)) {
 
         <div id ="contenant-form">
 
-            <?= $searchForm ?>
+            <?php if (isset($validate) && $validate) {
+                require_once ROOT_DIR . 'back/view/fragment/toValidate.php';
+            } else {
+                require_once ROOT_DIR . 'back/view/fragment/searchForm.php';
+            }
+            ?>
 
         </div>
 
