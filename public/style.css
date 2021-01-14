@@ -111,6 +111,9 @@ form > div:last-child button {
 form > div:last-child i {
     font-size: 1.25rem;
 }
+#book-form div:last-child {
+    justify-content: space-between;
+}
 /***** Fin Form *****/
 /***** Debut Sections *****/
 /*** Debut Section All *****/
@@ -163,6 +166,31 @@ table tr:last-child td:last-child {
     color: #212529;
 }
 /*** Fin Section All *****/
+/*** Debut Section Valid ***/
+#sect-valid {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+#sect-valid h1 {
+    padding: 10px 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+#sect-valid form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#sect-valid form p:first-child {
+    font-size: 1.1rem;
+}
+#sect-valid form p:last-child {
+    margin: 20px 0;
+}
+/*** Fin Section Valid ***/
 /***** Fin Sections *****/
 
 /********** Media Queries **********/

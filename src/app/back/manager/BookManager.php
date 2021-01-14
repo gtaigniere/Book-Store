@@ -37,10 +37,10 @@ class BookManager
     /**
      * Renvoie le livre dont l'id est passé en paramètre
      * @param int $id
-     * @return Book|null
+     * @return Book
      * @throws Exception Si l'accès au livre a échoué
      */
-    public function one(int $id): ?Book
+    public function one(int $id): Book
     {
         $stmt = $this->db->prepare('SELECT * FROM book WHERE id = :id');
         if (!$stmt->execute([':id' => $id])) {
@@ -48,7 +48,6 @@ class BookManager
         }
         $stmt->setFetchMode(PDO::FETCH_CLASS, Book::class);
         $result = $stmt->fetch();
-//        return $result ? $result : null;
         if (!$result) {
             throw new Exception('Aucun livre n\'a été trouvé avec l\'id : ' . $id);
         }
@@ -57,7 +56,7 @@ class BookManager
 
     /**
      * Ajoute le livre passé en paramètre
-     * Renvoie celui-ci s'il a bien été ajouté, sinon null
+     * Renvoie celui-ci s'il a bien été ajouté
      * @param Book $book
      * @return Book
      * @throws Exception Si l'ajout a échoué
@@ -148,7 +147,7 @@ class BookManager
     /**
      * Filtre le tableau de critères en supprimant les clefs/valeurs
      * dont les clefs ne sont pas présentes dans $arrayAssocs
-     * et en renommant les clefs comme indiqué dans $arrayAssocs
+     * ainsi qu'en renommant les clefs comme indiqué dans $arrayAssocs
      * @param array $criteria
      * @param array $arrayAssocs oldName => newName
      * @return array
@@ -156,7 +155,7 @@ class BookManager
     private function extractParameters(array $criteria, array $arrayAssocs): array
     {
         $params = [];
-        $criteria = array_intersect_key($criteria, $arrayAssocs); // Ancienne clef => Nouvelle clef
+        $criteria = array_intersect_key($criteria, $arrayAssocs); // Anciennes clefs => Nouvelles clefs
         foreach ($criteria as $key => $value) {
             if (!empty($value)) {
                 $params[$arrayAssocs[$key]] = $value;
@@ -200,24 +199,6 @@ class BookManager
             }
         }
         return $params;
-    }
-
-    /**
-     * Compare deux livres
-     * S'ils sont identiques renvoie true, sinon false
-     * @param Book $oldBook
-     * @param Book $newBook
-     * @return bool
-     */
-    public function compareTwoBooks(Book $oldBook, Book $newBook): bool
-    {
-        foreach ((array)$oldBook as $key) {
-            $getter = 'get' . substr($key, 4);
-            if ($oldBook->$getter() !== $newBook->$getter()) {
-                return false;
-            }
-        }
-        return true;
     }
 
 }

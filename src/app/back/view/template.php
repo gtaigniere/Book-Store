@@ -1,8 +1,7 @@
 <?php
-
 use App\Back\Util\Form;
 
-if (isset($section, $form)) {
+if (isset($section, $searchForm)) {
 ?>
 
     <!doctype html>
@@ -31,30 +30,12 @@ if (isset($section, $form)) {
         </header>
 
         <div id ="contenant-form">
-            <form id="book-form">
-                <div>
-                    <?= $form->input('bookId', '<i class="fas fa-id-badge"></i></label>', ['id' => 'input-id', 'placeholder' => 'ID']); ?>
-                </div>
-                <div>
-                    <?= $form->input('bookName', '<i class="fas fa-book"></i></label>', ['id' => 'input-name', 'placeholder' => 'Nom du livre']); ?>
-                </div>
-                <div>
-                    <div class="bordure">
-                        <?= $form->input('bookPublisher', '<i class="fas fa-people-carry"></i></label>', ['id' => 'input-publisher', 'placeholder' => 'Editeur']); ?>
-                    </div>
-                    <div class="bordure">
-                        <?= $form->input('bookPrice', '<i class="fas fa-euro-sign"></i></label>', ['id' => 'input-price', 'placeholder' => 'Prix']); ?>
-                    </div>
-                </div>
-                <div>
-                    <button id="add-button" class="btn btn-success"><i class="fas fa-plus"></i></button>
-                    <button id="modify-button" class="btn btn-light"><i class="fas fa-pen-alt"></i></button>
-                    <button id="search-button" class="btn btn-primary" name="target" value="search"><i class="fas fa-search"></i></button>
-                </div>
-            </form>
+
+            <?= $searchForm ?>
+
         </div>
 
-        <?= $section; ?>
+        <?= $section ?>
 
     </main>
 
@@ -67,7 +48,7 @@ if (isset($section, $form)) {
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
             integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
             crossorigin="anonymous"></script>
-    <script src="script/book-form.js"></script>
+    <script src=""></script>
     </body>
     </html>
 <?php

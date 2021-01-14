@@ -37,13 +37,17 @@ class BookController
     }
 
     /**
-     * Affiche le template avec la section HTML passée en paramètre et lui transmet les paramètres sous forme de tableau
+     * Affiche le template avec le formulaire HTML et la section HTML passées en paramètre et transmet les paramètres sous forme de tableau
+     * @param string $formView Formulaire HTML à afficher avec le template et la section
      * @param string $view Section HTML à afficher avec le template
      * @param array $parameters Paramètres à transmettre à la vue
      */
-    public function render(string $view, array $parameters): void
+    public function render(string $formView, string $view, array $parameters): void
     {
         extract($parameters);
+        ob_start();
+        require_once ROOT_DIR . $formView;
+        $searchForm = ob_get_clean();
         ob_start();
         require_once ROOT_DIR . $view;
         $section = ob_get_clean();
@@ -57,7 +61,7 @@ class BookController
     {
         $books = $this->bookManager->all();
         $form = new Form();
-        $this->render('back/view/list.php', compact('books', 'form'));
+        $this->render('back/view/fragment/searchForm.php', 'back/view/list.php', compact('books', 'form'));
     }
 
     /**
@@ -73,13 +77,12 @@ class BookController
             $criteria['bookName'] = $book->getName();
             $criteria['bookPublisher'] = $book->getPublisher();
             $criteria['bookPrice'] = $book->getPrice();
-            // ToDo : Passer par un objet Form par la suite
         } catch (Exception $e) {
             ErrorManager::add($e->getMessage());
         } finally {
             $books = $this->bookManager->all();
             $form = new Form($criteria);
-            $this->render('back/view/list.php', compact('books', 'form',  'criteria'));
+            $this->render('back/view/fragment/searchForm.php', 'back/view/list.php', compact('books', 'form',  'criteria'));
         }
     }
 
@@ -112,18 +115,21 @@ class BookController
      */
     public function modify(array $params): void
     {
-        try {
-            $book = new Book();
-            $book->setId($params['bookId']);
-            $book->setName($params['bookName']);
-            $book->setPublisher($params['bookPublisher']);
-            $book->setPrice(!empty($params['bookPrice']) ? (float)$params['bookPrice'] : null);
-            $this->bookManager->update($book);
-            $this->all();
-        } catch (Exception $e) {
-            ErrorManager::add($e->getMessage());
-        } finally {
-            $this->all();
+        if (array_key_exists('validate', $params) && $params['validate']) {
+            try {
+                $book = new Book();
+                $book->setId($params['bookId']);
+                $book->setName($params['bookName']);
+                $book->setPublisher($params['bookPublisher']);
+                $book->setPrice(!empty($params['bookPrice']) ? (float)$params['bookPrice'] : null);
+                $this->bookManager->update($book);
+            } catch (Exception $e) {
+                ErrorManager::add($e->getMessage());
+            } finally {
+                $this->all();
+            }
+        } else {
+            $this->validate($params);
         }
     }
 
@@ -136,12 +142,21 @@ class BookController
     {
         try {
             $this->bookManager->delete($id);
-            $this->all();
         } catch (Exception $e) {
             ErrorManager::add($e->getMessage());
         } finally {
             $this->all();
         }
+    }
+
+    /**
+     * Affiche la page de demande de confirmation pour l'ajout, la modification, et la suppression
+     * @param array $datas
+     */
+    public function validate(array $datas)
+    {
+        $form = new Form();
+        $this->render('back/view/fragment/modForm.php', 'back/view/validation.php', compact('form','datas'));
     }
 
     /**
@@ -154,7 +169,7 @@ class BookController
     {
         $books = $this->bookManager->search($criteria);
         $form = new Form($criteria);
-        $this->render('back/view/list.php', compact('books', 'form', 'criteria'));
+        $this->render('back/view/fragment/searchForm.php', 'back/view/list.php', compact('books', 'form', 'criteria'));
     }
 
 }

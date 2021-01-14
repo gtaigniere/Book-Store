@@ -3,7 +3,7 @@
 use App\Back\Model\Book;
 
 if (isset($book)) {
-    ?>
+?>
     <section id="sect-one">
         <div>
 
@@ -20,6 +20,6 @@ if (isset($book)) {
 
         </div>
     </section>
-    <?php
+<?php
 }
 ?>
