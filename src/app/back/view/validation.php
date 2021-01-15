@@ -5,7 +5,7 @@ if (isset($form, $datas)) {
 
         <h1>Demande de Confirmation</h1>
 
-        <form action="" method="POST">
+        <form method="POST">
 
             <?php foreach($datas as $name => $value) :
                 echo $form->input($name, null, ['type' => 'hidden', 'value' => $value]);
