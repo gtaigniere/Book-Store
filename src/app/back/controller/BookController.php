@@ -37,7 +37,7 @@ class BookController
     }
 
     /**
-     * Affiche le template avec la section HTML passée en paramètre et lui transmet les paramètres sous forme de tableau
+     * Affiche le template avec le formulaire HTML et la section HTML passées en paramètre et transmet les paramètres sous forme de tableau
      * @param string $view Section HTML à afficher avec le template
      * @param array $parameters Paramètres à transmettre à la vue
      */
@@ -73,7 +73,6 @@ class BookController
             $criteria['bookName'] = $book->getName();
             $criteria['bookPublisher'] = $book->getPublisher();
             $criteria['bookPrice'] = $book->getPrice();
-            // ToDo : Passer par un objet Form par la suite
         } catch (Exception $e) {
             ErrorManager::add($e->getMessage());
         } finally {
@@ -112,18 +111,21 @@ class BookController
      */
     public function modify(array $params): void
     {
-        try {
-            $book = new Book();
-            $book->setId($params['bookId']);
-            $book->setName($params['bookName']);
-            $book->setPublisher($params['bookPublisher']);
-            $book->setPrice(!empty($params['bookPrice']) ? (float)$params['bookPrice'] : null);
-            $this->bookManager->update($book);
-            $this->all();
-        } catch (Exception $e) {
-            ErrorManager::add($e->getMessage());
-        } finally {
-            $this->all();
+        if (array_key_exists('validate', $params) && $params['validate']) {
+            try {
+                $book = new Book();
+                $book->setId($params['bookId']);
+                $book->setName($params['bookName']);
+                $book->setPublisher($params['bookPublisher']);
+                $book->setPrice(!empty($params['bookPrice']) ? (float)$params['bookPrice'] : null);
+                $this->bookManager->update($book);
+            } catch (Exception $e) {
+                ErrorManager::add($e->getMessage());
+            } finally {
+                $this->all();
+            }
+        } else {
+            $this->validate($params);
         }
     }
 
@@ -136,12 +138,22 @@ class BookController
     {
         try {
             $this->bookManager->delete($id);
-            $this->all();
         } catch (Exception $e) {
             ErrorManager::add($e->getMessage());
         } finally {
             $this->all();
         }
+    }
+
+    /**
+     * Affiche la page de demande de confirmation pour l'ajout, la modification, et la suppression
+     * @param array $datas
+     */
+    public function validate(array $datas)
+    {
+        $validate = true;
+        $form = new Form();
+        $this->render('back/view/validation.php', compact('form','datas', 'validate'));
     }
 
     /**

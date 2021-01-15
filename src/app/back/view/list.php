@@ -46,10 +46,10 @@ if (isset($books)) {
                     <?php if ($book instanceof Book) : ?>
 
                             <tr>
-                                <td><?= $book->getId(); ?></td>
-                                <td><?= $book->getName(); ?></td>
-                                <td><?= $book->getPublisher(); ?></td>
-                                <td><?= $book->getPrice(); ?></td>
+                                <td><?= $book->getId() ?></td>
+                                <td><?= $book->getName() ?></td>
+                                <td><?= $book->getPublisher() ?></td>
+                                <td><?= $book->getPrice() ?></td>
                                 <td>
                                     <a class="btn btn-warning" href="?target=one&id=<?= $book->getId(); ?>"><i class="fas fa-edit"></i></a>
                                     <a class="btn btn-danger" href="?target=delete&id=<?= $book->getId(); ?>"><i class="fas fa-trash"></i></a>
