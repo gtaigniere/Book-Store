@@ -161,8 +161,8 @@ class BookController
     public function validate(array $datas)
     {
         $validate = true;
-        $form = new Form();
-        $this->render('back/view/validation.php', compact('form','datas', 'validate'));
+        $form = new Form($datas);
+        $this->render('back/view/validation.php', compact('form', 'validate'));
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
-if (isset($form, $datas)) {
+use App\Back\Util\Form;
+
+if (isset($form) && $form instanceof Form) {
 ?>
     <section id="sect-valid">
 
@@ -7,7 +9,7 @@ if (isset($form, $datas)) {
 
         <form method="POST">
 
-            <?php foreach($datas as $name => $value) :
+            <?php foreach($form->getDatas() as $name => $value) :
                 echo $form->input($name, null, ['type' => 'hidden', 'value' => $value]);
             endforeach; ?>
 
