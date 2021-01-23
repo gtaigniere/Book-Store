@@ -136,12 +136,21 @@ class BookController
      */
     public function delete(int $id): void
     {
-        try {
-            $this->bookManager->delete($id);
-        } catch (Exception $e) {
-            ErrorManager::add($e->getMessage());
-        } finally {
-            $this->all();
+        if (array_key_exists('validate', $_POST) && $_POST['validate']) {
+            try {
+                $this->bookManager->delete($id);
+            } catch (Exception $e) {
+                ErrorManager::add($e->getMessage());
+            } finally {
+                $this->all();
+            }
+        } else {
+            $book = $this->bookManager->one($id);
+            $datas['bookId'] = $book->getId();
+            $datas['bookName'] = $book->getName();
+            $datas['bookPublisher'] = $book->getPublisher();
+            $datas['bookPrice'] = $book->getPrice();
+            $this->validate($datas);
         }
     }
 
@@ -152,8 +161,8 @@ class BookController
     public function validate(array $datas)
     {
         $validate = true;
-        $form = new Form();
-        $this->render('back/view/validation.php', compact('form','datas', 'validate'));
+        $form = new Form($datas);
+        $this->render('back/view/validation.php', compact('form', 'validate'));
     }
 
     /**

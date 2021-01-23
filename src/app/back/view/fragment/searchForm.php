@@ -1,5 +1,8 @@
 <?php
-if (isset($form)) {
+// Formulaire par défaut (ajout, modification, recherche)
+use App\Back\Util\Form;
+
+if (isset($form) && $form instanceof Form) {
 ?>
     <form>
         <div>
