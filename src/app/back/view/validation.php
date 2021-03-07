@@ -8,15 +8,9 @@ if (isset($form) && $form instanceof Form) {
 
         <h1>Demande de Confirmation</h1>
 
-            <?php if ($_GET['target'] == 'delete') : ?>
-
-                <?php require_once ROOT_DIR . 'back/view/fragment/toValidateDelete.php'; ?>
-
-            <?php else : ?>
-
-                <?php require_once ROOT_DIR . 'back/view/fragment/toValidateAddOrModify.php'; ?>
-
-            <?php endif; ?>
+        <?php
+        require_once $_GET['target'] == 'delete' ? ROOT_DIR . 'back/view/fragment/toValidateDelete.php' : ROOT_DIR . 'back/view/fragment/toValidateAddOrModify.php';
+        ?>
 
     </section>
 <?php
