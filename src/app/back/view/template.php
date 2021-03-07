@@ -29,17 +29,6 @@ if (isset($section)) {
             <h1><i class="fas fa-swatchbook"></i> Book Store</h1>
         </header>
 
-        <div id ="contenant-form">
-
-            <?php if (isset($validate) && $validate) {
-                require_once ROOT_DIR . 'back/view/fragment/toValidate.php';
-            } else {
-                require_once ROOT_DIR . 'back/view/fragment/searchForm.php';
-            }
-            ?>
-
-        </div>
-
         <?= $section ?>
 
     </main>

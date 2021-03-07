@@ -3,22 +3,20 @@ use App\Back\Util\Form;
 
 if (isset($form) && $form instanceof Form) {
 ?>
+
     <section id="sect-valid">
 
         <h1>Demande de Confirmation</h1>
 
-        <form method="POST">
+            <?php if ($_GET['target'] == 'delete') : ?>
 
-            <?php foreach($form->getDatas() as $name => $value) :
-                echo $form->input($name, null, ['type' => 'hidden', 'value' => $value]);
-            endforeach; ?>
+                <?php require_once ROOT_DIR . 'back/view/fragment/toValidateDelete.php'; ?>
 
-            <p>Etes-vous sûr ?</p>
+            <?php else : ?>
 
-            <button class="btn btn-success" name="validate" value="true">Confirmer</button>
-            <p><a class="btn btn-secondary" href="?target=all">Annuler</a></p>
+                <?php require_once ROOT_DIR . 'back/view/fragment/toValidateAddOrModify.php'; ?>
 
-        </form>
+            <?php endif; ?>
 
     </section>
 <?php

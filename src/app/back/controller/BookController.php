@@ -90,17 +90,21 @@ class BookController
      */
     public function add(array $params): void
     {
-        try {
-            $book = new Book();
-            $book->setId(array_key_exists('bookId', $params) ? (int)$params['bookId'] : null);
-            $book->setName($params['bookName']);
-            $book->setPublisher($params['bookPublisher']);
-            $book->setPrice((float)$params['bookPrice']);
-            $this->bookManager->insert($book);
-        } catch (Exception $e) {
-            ErrorManager::add($e->getMessage());
-        } finally {
-            $this->all();
+        if (array_key_exists('validate', $params) && $params['validate']) {
+            try {
+                $book = new Book();
+                $book->setId(array_key_exists('bookId', $params) ? (int)$params['bookId'] : null);
+                $book->setName($params['bookName']);
+                $book->setPublisher($params['bookPublisher']);
+                $book->setPrice((float)$params['bookPrice']);
+                $this->bookManager->insert($book);
+            } catch (Exception $e) {
+                ErrorManager::add($e->getMessage());
+            } finally {
+                $this->all();
+            }
+        } else {
+            $this->validate($params);
         }
     }
 

@@ -92,6 +92,9 @@ form > div input, #book-div p .input {
 form > div input, form > div > div input {
     border: 1px solid lightgrey;
 }
+#book-div {
+    align-self: center;
+}
 #book-div .input {
     padding-top: 5px;
     border: 1px solid lightgrey;
@@ -186,9 +189,13 @@ table tr:last-child td:last-child {
     flex-direction: column;
     align-items: center;
 }
-#sect-valid form p:first-child {
-    font-size: 1.1rem;
+.sure {
+    margin-top: 15px;
+    font-weight: bold;
 }
+/*#sect-valid form p:first-child {*/
+/*    font-size: 1.1rem;*/
+/*}*/
 #sect-valid form p:last-child {
     margin: 20px 0;
 }

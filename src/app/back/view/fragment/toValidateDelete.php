@@ -1,5 +1,5 @@
 <?php
-// Fragment de validation d'un formulaire (modification, suppression)
+// Fragment de validation d'un formulaire (suppression)
 use App\Back\Util\Form;
 
 if (isset($form) && $form instanceof Form) {
@@ -16,6 +16,20 @@ if (isset($form) && $form instanceof Form) {
         </div>
 
     </div>
+
+    <form method="POST">
+
+        <?php foreach($form->getDatas() as $name => $value) :
+                echo $form->input($name, null, ['type' => 'hidden', 'value' => $value]);
+            endforeach; ?>
+
+        <p class="sure">Etes-vous sûr ?</p>
+
+        <button class="btn btn-success" name="validate" value="true">Confirmer</button>
+        <p><a class="btn btn-secondary" href="?target=all">Annuler</a></p>
+
+    </form>
+
 <?php
 }
 ?>

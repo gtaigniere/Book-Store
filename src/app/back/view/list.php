@@ -8,6 +8,12 @@ use App\Back\{
 
 if (isset($books)) {
 ?>
+    <div id ="contenant-form">
+
+        <?php require_once ROOT_DIR . 'back/view/fragment/searchForm.php'; ?>
+
+    </div>
+
     <section id="sect-all">
 
         <?php
