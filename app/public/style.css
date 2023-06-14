@@ -1,0 +1,287 @@
+/***** Debut Variables *****/
+* {
+    margin: 0;
+    padding: 0;
+    --primary: #007bff;
+    --secondary: #6c757d;
+    --success: #28a745;
+    --info: #17a2b8;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --light: #f8f9fa;
+    --dark: #343a40;
+}
+/***** Fin Variables *****/
+/***** Debut Body *****/
+body {
+    display: flex;
+    justify-content: center;
+}
+/***** Fin Body *****/
+/***** Debut Main *****/
+main {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    width: 1110px;
+}
+i {
+    margin: auto;
+}
+/***** Fin Main *****/
+/***** Debut Header *****/
+header {
+    display: flex;
+    width: 100%;
+}
+header > h1 {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    width: 1110px;
+    background: var(--dark);
+    border-radius: .25rem;
+    font-size: 2.5rem;
+    text-align: center;
+    color: var(--light);
+}
+/***** Fin Header *****/
+/***** Debut Form *****/
+#contenant-form {
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: center;
+}
+form, #book-div {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+form > div, #book-div > div, #book-div > p {
+    display: flex;
+    margin-bottom: .5rem;
+    padding-top: .5rem;
+    height: 46px;
+    width: 555px;
+    border-radius: .25rem;
+    text-align: center;
+}
+form > div > div, #book-div > div > p {
+    display: flex;
+    justify-content: space-between;
+    height: 38px;
+    width: 262px;
+}
+form > div label, #book-div p .label {
+    padding-top: 5px;
+    height: 38px;
+    width: 38px;
+    background: var(--warning);
+    border: 1px solid lightgray;
+    border-right: none;
+    border-radius: .25rem 0 0 .25rem;
+}
+form > div > label > i, #book-div i {
+    color: #495057;
+}
+form > div input, #book-div p .input {
+    padding-left: 12px;
+    border-radius: 0 .25rem .25rem 0;
+    border-left: none;
+    width: calc(100% - 38px);
+}
+form > div input, form > div > div input {
+    border: 1px solid lightgrey;
+}
+#book-div {
+    align-self: center;
+}
+#book-div .input {
+    padding-top: 5px;
+    border: 1px solid lightgrey;
+    text-align: left;
+}
+/*form > div > div figure {*/
+/*    border-right: none;*/
+/*}*/
+form > div:nth-child(3), #book-div > div:nth-child(3) {
+    display: flex;
+    justify-content: space-between;
+}
+form > div:last-child {
+    display: flex;
+    justify-content: space-around;
+}
+form > div:last-child button {
+    height: 48px;
+    width: 54px;
+    border-radius: .3rem;
+}
+form > div:last-child i {
+    font-size: 1.25rem;
+}
+/***** Fin Form *****/
+/***** Debut Sections *****/
+/*** Debut Section All *****/
+#sect-all {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+#sect-all .alert {
+    margin-bottom: 35px;
+    border-radius: 8px
+}
+table {
+    width: 1110px;
+    background: var(--dark);
+    color: white;
+    border-radius: .25rem;
+}
+table thead {
+    height: 49px;
+}
+table tbody tr {
+    height: 63px;
+}
+table th, table td {
+    padding: .75rem;
+}
+table.color_line tr:nth-child(2n+1) td {
+    background: #495057;
+}
+table th:last-child(n-1), table td:last-child(n-1) {
+    width: 100px;
+}
+table th:last-child, table td:last-child {
+    width: 130px;
+}
+table tr td:last-child {
+    text-align: right;
+}
+table tr:last-child td:first-child {
+    border-radius: 0 0 0 .25rem;
+}
+table tr:last-child td:last-child {
+    border-radius: 0 0 .25rem 0;
+}
+.fa-edit {
+    color: #212529;
+}
+/*** Fin Section All *****/
+/*** Debut Section Valid ***/
+#sect-valid {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+#sect-valid h1 {
+    padding: 10px 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+#sect-valid form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.sure {
+    margin-top: 15px;
+    font-weight: bold;
+}
+/*#sect-valid form p:first-child {*/
+/*    font-size: 1.1rem;*/
+/*}*/
+#sect-valid form p:last-child {
+    margin: 20px 0;
+}
+/*** Fin Section Valid ***/
+/***** Fin Sections *****/
+
+/********** Media Queries **********/
+/***** Ecrans < 1200px *****/
+@media (max-width: 1199px) {
+    main, header h1 {
+        width: 930px;
+    }
+    form > div {
+        width: 465px;
+    }
+    form > div > div {
+        width: 217px;
+    }
+    #sect-all table {
+        width: 930px;
+    }
+}
+/***** Ecrans < 980px *****/
+@media (max-width: 979px) {
+    main, header h1 {
+        width: 690px;
+    }
+    form > div {
+        width: 345px;
+    }
+    form > div > div {
+        width: 157px;
+    }
+    #sect-all table {
+        width: 690px;
+    }
+}
+/***** Ecrans < 800px *****/
+@media (max-width: 799px) {
+    main, header h1 {
+        width: 510px;
+    }
+    form > div {
+        width: 255px;
+    }
+    form > div > div {
+        width: 112px;
+    }
+    #sect-all table {
+        width: 510px;
+    }
+}
+/***** Ecrans < 520px *****/
+@media (max-width: 519px) {
+    main {
+        padding: 0 15px;
+    }
+    main, header h1 {
+        width: 100%;
+    }
+    form > div {
+        width: 100%;
+    }
+    form > div:nth-child(3) {
+        margin: inherit;
+        padding: inherit;
+        display: flex;
+        flex-direction: column;
+        height: 108px;
+    }
+    form > div > div {
+        margin-top: .5rem;
+        padding-bottom: .5rem;
+        height: 46px;
+        width: 100%;
+    }
+    form > div > div input {
+        padding-bottom: inherit;
+        padding-left: 12px;
+        width: calc(100% - 38px);
+        height: 46px;
+    }
+    form div:last-child {
+        height: 56px;
+    }
+    #sect-all table {
+        width: 100%;
+    }
+}
